@@ -9,7 +9,7 @@ interface WeddingDetailsProps {
 const content = {
   de: {
     title: "Wir heiraten! 💍",
-    intro: "Monastir, Tunesien\nDonnerstag, 3. September 2026 – Samstag, 5. September 2026",
+    intro: "Monastir, Tunesien Donnerstag, 3. September 2026 – Samstag, 5. September 2026",
     excitement: "Wir laden euch herzlich ein, mit uns drei unvergessliche Tage voller Liebe, Freude und Feier zu verbringen.",
     venueLabel: "Ort",
     venue: "Monastir, Tunesien",
@@ -50,7 +50,7 @@ const content = {
   },
   en: {
     title: "We're getting married! 💍",
-    intro: "Monastir, Tunisia\nThursday, September 3, 2026 – Saturday, September 5, 2026",
+    intro: "Monastir, Tunisia Thursday, September 3, 2026 – Saturday, September 5, 2026",
     excitement: "We warmly invite you to celebrate with us over three unforgettable days filled with love, joy, and festivities.",
     venueLabel: "Venue",
     venue: "Monastir, Tunisia",
@@ -91,7 +91,7 @@ const content = {
   },
   ar: {
     title: "سنتزوج! 💍",
-    intro: "المنستير، تونس\nالخميس 3 سبتمبر 2026 – السبت 5 سبتمبر 2026",
+    intro: "المنستير، تونس الخميس 3 سبتمبر 2026 – السبت 5 سبتمبر 2026",
     excitement: "يسعدنا دعوتكم للاحتفال معنا لمدة ثلاثة أيام مليئة بالحب والفرح والاحتفالات.",
     venueLabel: "المكان",
     venue: "المنستير، تونس",
