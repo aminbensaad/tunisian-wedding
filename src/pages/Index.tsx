@@ -1,68 +1,91 @@
 import { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import WeddingDetails from "@/components/WeddingDetails";
-import couplePhoto from "@/assets/couple-photo.webp";
+import hero537 from "@/assets/hero-537.jpg";
+import hero539 from "@/assets/hero-539.jpg";
+import hero541 from "@/assets/hero-541.jpg";
+import hero542 from "@/assets/hero-542.jpg";
+import hero543 from "@/assets/hero-543.jpg";
+import hero545 from "@/assets/hero-545.jpg";
 import floralBottom from "@/assets/floral-bottom-left-watercolor.png";
 import floralTop from "@/assets/floral-top-right-watercolor.png";
+import weddingLogo from "@/assets/wedding-logo.png";
 
 import useCountdown from "@/hooks/useCountdown";
 import weddingRings from "@/assets/wedding-rings.png";
 import tunisiaFlag from "@/assets/tunisia-flag.png";
 
-const WEDDING_DATE = new Date("2026-07-24T14:00:00");
+const WEDDING_DATE = new Date("2026-09-03T15:00:00");
+const HERO_PHOTOS = [hero537, hero539, hero541, hero542, hero543, hero545];
 
 const translations = {
   de: {
-    gettingMarried: "Wir heiraten!",
-    date: "Freitag, 24. Juli 2026",
+    gettingMarried: "Unser Hochzeitswochenende",
+    home: "About",
+    story: "Unsere Geschichte",
+    detailsNav: "Details",
+    travel: "Anreise",
+    activities: "Freizeit",
+    date: "3. bis 5. September 2026",
     days: "Tage",
     hrs: "Std",
     min: "Min",
     sec: "Sek",
     rsvp: "ZUSAGEN",
-    moreInfo: "DETAILS",
+    moreInfo: "WOCHENENDE",
     close: "schlie\u00DFen",
-    deadlinePre: "Bitte bis",
-    deadlineDate: "Mittwoch, 15. April 2026",
-    deadlinePost: "Bescheid geben",
+    deadlinePre: "Ort",
+    deadlineDate: "Monastir, Tunesien",
+    deadlinePost: "",
     openCard: "EINLADUNG \u00D6FFNEN",
-    coverSubtitle: "Ihr seid herzlich eingeladen",
+    coverSubtitle: "Ihr seid herzlich zu unserem Wochenende eingeladen",
   },
   en: {
-    gettingMarried: "We're getting married!",
-    date: "Friday, July 24, 2026",
+    gettingMarried: "Our Wedding Weekend",
+    home: "About",
+    story: "Our Story",
+    detailsNav: "Details",
+    travel: "Getting There",
+    activities: "Things to Do",
+    date: "September 3rd to 5th, 2026",
     days: "Days",
     hrs: "Hrs",
     min: "Min",
     sec: "Sec",
     rsvp: "RSVP",
-    moreInfo: "DETAILS",
+    moreInfo: "WEEKEND GUIDE",
     close: "close",
-    deadlinePre: "Please respond by",
-    deadlineDate: "Sunday, March 22, 2026",
+    deadlinePre: "Location",
+    deadlineDate: "Monastir, Tunisia",
     deadlinePost: "",
     openCard: "OPEN INVITATION",
-    coverSubtitle: "You are cordially invited",
+    coverSubtitle: "You are warmly invited for the full weekend",
   },
   ar: {
-    gettingMarried: "ندعوكم للاحتفال بزفافنا",
-    date: "\u0627\u0644\u062C\u0645\u0639\u0629\u060C 24 \u064A\u0648\u0644\u064A\u0648 2026",
+    gettingMarried: "عطلة نهاية أسبوع زفافنا",
+    home: "نبذة",
+    story: "قصتنا",
+    detailsNav: "التفاصيل",
+    travel: "الوصول",
+    activities: "أنشطة",
+    date: "\u0645\u0646 3 \u0625\u0644\u0649 5 \u0633\u0628\u062A\u0645\u0628\u0631 2026",
     days: "\u064A\u0648\u0645",
     hrs: "\u0633\u0627\u0639\u0629",
     min: "\u062F\u0642\u064A\u0642\u0629",
     sec: "\u062B\u0627\u0646\u064A\u0629",
     rsvp: "قبول الدعوة",
-    moreInfo: "\u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644",
+    moreInfo: "\u062F\u0644\u064A\u0644 \u0627\u0644\u0639\u0637\u0644\u0629",
     close: "\u0625\u063A\u0644\u0627\u0642",
-    deadlinePre: "\u064A\u0631\u062C\u0649 \u0627\u0644\u0631\u062F \u0642\u0628\u0644",
-    deadlineDate: "\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621\u060C 1 \u0623\u0628\u0631\u064A\u0644 2026",
+    deadlinePre: "\u0627\u0644\u0645\u0643\u0627\u0646",
+    deadlineDate: "\u0627\u0644\u0645\u0646\u0633\u062A\u064A\u0631\u060C \u062A\u0648\u0646\u0633",
     deadlinePost: "",
     openCard: "\u0627\u0641\u062A\u062D \u0627\u0644\u062F\u0639\u0648\u0629",
-    coverSubtitle: "يسعدنا حضوركم",
+    coverSubtitle: "يشرفنا حضوركم طوال عطلة نهاية الأسبوع",
   },
 } as const;
 
 type Lang = keyof typeof translations;
+type ActiveSection = "home" | "story" | "details" | "travel" | "activities";
 
 const langLabel: Record<Lang, string> = { de: "DEUTSCH", en: "ENGLISH", ar: "ARABE" };
 const langShort: Record<Lang, string> = { de: "DE", en: "EN", ar: "AR" };
@@ -87,9 +110,15 @@ const coverText2: Record<Lang, string> = {
 };
 
 const invitedText: Record<Lang, string> = {
-  de: "Ihr seid herzlich eingeladen!",
-  en: "You are cordially invited!",
-  ar: "يشرفنا حضوركم",
+  de: "Ihr seid voller Freude zu unserer Hochzeit eingeladen",
+  en: "You are joyfully invited to the wedding of",
+  ar: "يسعدنا دعوتكم لحضور زفاف",
+};
+
+const locationText: Record<Lang, { venue: string; city: string }> = {
+  de: { venue: "Monastir", city: "Tunesien" },
+  en: { venue: "Monastir", city: "Tunisia" },
+  ar: { venue: "المنستير", city: "تونس" },
 };
 
 const quoteText: Record<Lang, string> = {
@@ -132,7 +161,204 @@ const flagForLang = (l: Lang) => {
   return <TunisianFlag />;
 };
 
+const LogoMark = ({ className }: { className: string }) => (
+  <div
+    className={className}
+    style={{
+      WebkitMaskImage: `url(${weddingLogo})`,
+      maskImage: `url(${weddingLogo})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+      background:
+        "linear-gradient(135deg, #ef9aaa 0%, #e9879e 22%, #f0c46f 50%, #c7e5dd 74%, #8ecfd3 100%)",
+    }}
+  />
+);
+
+const HeroSlideshow = ({
+  activeIndex,
+  imageClassName,
+}: {
+  activeIndex: number;
+  imageClassName: string;
+}) => (
+  <>
+    {HERO_PHOTOS.map((photo, index) => (
+      <img
+        key={photo}
+        src={photo}
+        alt="Maisa and Amin"
+        className={`${imageClassName} ${index === activeIndex ? "opacity-100" : "opacity-0"}`}
+        style={{
+          transition: "opacity 2800ms ease-in-out",
+          willChange: "opacity",
+        }}
+      />
+    ))}
+  </>
+);
+
 const allLangs: Lang[] = ["de", "en", "ar"];
+
+const navItems: Array<{ key: ActiveSection; labelKey: "home" | "story" | "detailsNav" | "travel" | "activities" }> = [
+  { key: "home", labelKey: "home" },
+  { key: "story", labelKey: "story" },
+  { key: "details", labelKey: "detailsNav" },
+  { key: "travel", labelKey: "travel" },
+  { key: "activities", labelKey: "activities" },
+];
+
+const InvitationNav = ({
+  lang,
+  activeSection,
+  setActiveSection,
+  mobilePinned = false,
+}: {
+  lang: Lang;
+  activeSection: ActiveSection;
+  setActiveSection: (section: ActiveSection) => void;
+  mobilePinned?: boolean;
+}) => {
+  const t = translations[lang];
+  const orderedNavItems = lang === "ar" ? [...navItems].reverse() : navItems;
+
+  return (
+    <nav className={`w-full ${mobilePinned ? "sticky top-0 z-20 -mx-5 border-b border-border/60 bg-background/95 px-5 py-4 backdrop-blur sm:-mx-6 sm:px-6 md:hidden" : ""}`}>
+      <div className={`${mobilePinned ? "flex min-w-max gap-5 overflow-x-auto whitespace-nowrap text-[0.72rem]" : `flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-[0.7rem] md:text-sm md:justify-start ${lang === "ar" ? "md:pl-56" : ""}`} tracking-[0.22em] text-foreground/55 md:tracking-[0.2em]`}>
+        {orderedNavItems.map((item) => (
+          <button
+            key={item.key}
+            onClick={() => setActiveSection(item.key)}
+            className={`border-b pb-1 transition-colors ${
+              activeSection === item.key
+                ? "border-foreground text-foreground"
+                : "border-transparent hover:border-foreground/40 hover:text-foreground"
+            }`}
+          >
+            {t[item.labelKey]}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+const MobileAnchorNav = ({
+  lang,
+  setLang,
+  langOpen,
+  setLangOpen,
+  menuOpen,
+  setMenuOpen,
+}: {
+  lang: Lang;
+  setLang: (lang: Lang) => void;
+  langOpen: boolean;
+  setLangOpen: (open: boolean) => void;
+  menuOpen: boolean;
+  setMenuOpen: (open: boolean) => void;
+}) => {
+  const t = translations[lang];
+  const [isOverLightSection, setIsOverLightSection] = useState(false);
+  const mobileTextColor = isOverLightSection ? "text-[#9b7a2b]" : "text-white/90";
+  const mobileHoverColor = isOverLightSection ? "hover:text-[#9b7a2b]" : "hover:text-white";
+  const orderedNavItems = lang === "ar" ? [...navItems].reverse() : navItems;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsOverLightSection(window.scrollY > 360);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav className="fixed right-4 top-4 z-40 sm:right-6" data-mobile-menu="true">
+      <div className="relative flex items-center justify-end">
+        <button
+          onClick={() => {
+            setMenuOpen(!menuOpen);
+            setLangOpen(false);
+          }}
+          className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+            isOverLightSection
+              ? "bg-background text-[#9b7a2b] shadow-[0_10px_30px_rgba(155,122,43,0.12)]"
+              : `${mobileTextColor} ${mobileHoverColor} bg-black/20 backdrop-blur-md`
+          }`}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+        >
+          {menuOpen ? <X size={15} /> : <Menu size={15} />}
+        </button>
+
+        {menuOpen && (
+          <div
+            className={`absolute right-0 top-14 min-w-[13rem] rounded-[1.6rem] border px-4 py-4 shadow-lg backdrop-blur-md ${
+              isOverLightSection
+                ? "border-[#9b7a2b]/18 bg-background"
+                : "border-white/15 bg-black/45"
+            }`}
+          >
+            <div className={`flex flex-col gap-3 text-[0.78rem] tracking-[0.22em] ${mobileTextColor} ${lang === "ar" ? "text-right" : ""}`}>
+              {orderedNavItems.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.key === "home" ? "#mobile-home" : `#${item.key}`}
+                  onClick={() => setMenuOpen(false)}
+                  className={`transition-colors ${mobileHoverColor}`}
+                >
+                  {t[item.labelKey]}
+                </a>
+              ))}
+            </div>
+
+            <div className={`mt-4 border-t pt-4 ${isOverLightSection ? "border-[#9b7a2b]/20" : "border-white/15"}`} data-lang-menu="true">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className={`flex items-center gap-2 text-[0.72rem] tracking-[0.22em] transition-colors ${mobileTextColor}`}
+              >
+                <span className="h-4 w-6 overflow-hidden rounded-sm">{flagForLang(lang)}</span>
+                {langShort[lang]}
+                <ChevronDown size={14} className={`transition-transform ${langOpen ? "rotate-180" : ""}`} />
+              </button>
+              {langOpen && (
+                <div className="mt-3 space-y-1">
+                  {allLangs.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => {
+                        setLang(option);
+                        setLangOpen(false);
+                        setMenuOpen(false);
+                      }}
+                      className={`flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left text-[0.72rem] tracking-[0.18em] transition-colors ${
+                        option === lang
+                          ? isOverLightSection
+                            ? "text-[#9b7a2b]"
+                            : "text-white"
+                          : isOverLightSection
+                            ? "text-foreground/75 hover:bg-black/5"
+                            : "text-white/75 hover:bg-white/10"
+                      }`}
+                    >
+                      <span className="h-4 w-6 overflow-hidden rounded-sm">{flagForLang(option)}</span>
+                      {langShort[option]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 const LangDropdown = ({
   lang, setLang, open, setOpen, variant,
@@ -144,9 +370,9 @@ const LangDropdown = ({
       <div className="relative" data-lang-menu="true">
         <button
           onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
-          className="flex items-center gap-2 rounded-lg bg-white px-6 py-2 font-serif text-sm tracking-widest text-foreground shadow-sm"
+          className="flex w-full items-center gap-2 rounded-lg bg-white px-6 py-2 font-serif text-sm tracking-widest text-foreground shadow-sm"
         >
-          <div className="h-5 w-7 overflow-hidden rounded-sm">{flagForLang(lang)}</div>
+          <div className="pointer-events-none h-5 w-7 overflow-hidden rounded-sm">{flagForLang(lang)}</div>
           <span className="inline-block w-[12ch] text-left">{langLabel[lang]}</span>
           <ChevronDown size={16} className={`transition-transform ${open ? "rotate-180" : ""}`} />
         </button>
@@ -156,9 +382,9 @@ const LangDropdown = ({
               <button
                 key={l}
                 onClick={(e) => { e.stopPropagation(); setLang(l); setOpen(false); }}
-                className={`flex items-center gap-2 rounded-lg px-4 py-2 font-serif text-sm tracking-wide transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
+                className={`flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left font-serif text-sm tracking-wide transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
               >
-                <div className="h-6 w-6 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
+                <div className="pointer-events-none h-6 w-6 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
                 {langLabel[l]}
               </button>
             ))}
@@ -173,9 +399,9 @@ const LangDropdown = ({
     <div data-lang-menu="true">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 font-serif text-sm tracking-widest text-foreground shadow-md backdrop-blur-sm"
+        className="flex w-full items-center gap-2 rounded-full bg-background/90 px-4 py-2 font-serif text-sm tracking-widest text-foreground shadow-md backdrop-blur-sm"
       >
-        <div className="h-5 w-7 overflow-hidden rounded-sm">{flagForLang(lang)}</div>
+        <div className="pointer-events-none h-5 w-7 overflow-hidden rounded-sm">{flagForLang(lang)}</div>
         {langShort[lang]}
       </button>
       {open && (
@@ -184,9 +410,9 @@ const LangDropdown = ({
             <button
               key={l}
               onClick={() => { setLang(l); setOpen(false); }}
-              className={`flex items-center gap-3 rounded-lg px-5 py-3 font-serif text-base tracking-wide transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
+              className={`flex w-full items-center gap-3 rounded-lg px-5 py-3 text-left font-serif text-base tracking-wide transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
             >
-              <div className="h-8 w-8 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
+              <div className="pointer-events-none h-8 w-8 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
               {langFull[l]}
             </button>
           ))}
@@ -198,10 +424,16 @@ const LangDropdown = ({
 
 const Index = () => {
   const timeLeft = useCountdown(WEDDING_DATE);
-  const [lang, setLang] = useState<Lang>("de");
-  const [open, setOpen] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  const [lang, setLang] = useState<Lang>("en");
+  const [desktopCoverLangOpen, setDesktopCoverLangOpen] = useState(false);
+  const [desktopCompactLangOpen, setDesktopCompactLangOpen] = useState(false);
+  const [mobileCoverLangOpen, setMobileCoverLangOpen] = useState(false);
+  const [mobileCompactLangOpen, setMobileCompactLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCardOpen, setIsCardOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<ActiveSection>("home");
+  const [slideshowIndex, setSlideshowIndex] = useState(0);
 
   const t = translations[lang];
 
@@ -218,12 +450,27 @@ const Index = () => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as Element | null;
       if (!target?.closest("[data-lang-menu='true']")) {
-        setOpen(false);
+        setDesktopCoverLangOpen(false);
+        setDesktopCompactLangOpen(false);
+        setMobileCoverLangOpen(false);
+        setMobileCompactLangOpen(false);
+        setMobileLangOpen(false);
+      }
+      if (!target?.closest("[data-mobile-menu='true']")) {
+        setMobileMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setSlideshowIndex((current) => (current + 1) % HERO_PHOTOS.length);
+    }, 5200);
+
+    return () => window.clearInterval(timer);
   }, []);
 
   return (
@@ -232,57 +479,39 @@ const Index = () => {
       <div className="hidden lg:block relative w-full h-screen overflow-hidden" style={{ perspective: "2500px" }}>
         {/* Left Side - Photo (always visible underneath the cover) */}
         <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden">
-          <img
-            src={couplePhoto}
-            alt="Maisa und Amin"
-            className="absolute inset-0 h-full w-full object-cover scale-[1.2] object-center origin-bottom"
+          <HeroSlideshow
+            activeIndex={slideshowIndex}
+            imageClassName="absolute inset-0 h-full w-full object-cover scale-[1.03] object-center origin-bottom"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-
-          {/* Names overlay */}
-          <div className={`absolute bottom-12 z-10 text-primary-foreground ${lang === 'ar' ? 'right-8 text-right' : 'left-8 text-left'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-            <h1 className={`${lang === 'ar' ? 'font-script-ar text-6xl' : 'font-script text-7xl'} leading-tight drop-shadow-lg`}>
-              {lang === 'ar' ? <>ميساء و أمين</> : <>Maisa &<br />Amin</>}
-            </h1>
-            <p className="mt-3 font-serif text-lg tracking-wide drop-shadow-md">
-              {invitedText[lang]}
-            </p>
-          </div>
-
-          {/* More Info Overlay - Desktop only */}
-          {showInfo && (
-            <div className="absolute inset-0 z-30 flex items-center justify-center p-[10%]" onClick={() => setShowInfo(false)}>
-              <div className="absolute inset-0 bg-black/40" />
-              <div className="relative w-full max-w-[700px] max-h-[900px] h-full rounded-[10px] bg-background shadow-2xl overflow-y-auto p-10" onClick={(e) => e.stopPropagation()}>
-                <button
-                  onClick={() => setShowInfo(false)}
-                  className="absolute top-5 right-5 flex items-center gap-4 font-serif text-2xl text-black/60 hover:text-black transition-colors"
-                >
-                  {t.close} <span className="leading-none">{"\u2715"}</span>
-                </button>
-                <WeddingDetails lang={lang} />
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Right Side - Details content (always visible underneath grey backing) */}
-        <div className="absolute right-0 top-0 w-1/2 h-full flex flex-col items-center justify-center bg-background px-8 overflow-hidden">
-          <img src={floralTop} alt="" className="pointer-events-none absolute -top-7 -right-8 lg:w-[24rem] opacity-90" />
+        <div className="absolute right-0 top-0 w-1/2 h-full overflow-y-auto bg-background px-8">
+          <img src={floralTop} alt="" className="pointer-events-none absolute -top-6 right-0 lg:w-[20rem] opacity-80" />
           <img src={floralBottom} alt="" className="pointer-events-none absolute -bottom-4 -left-4 lg:w-72 opacity-90" />
 
-          <div className="relative z-10 flex flex-col items-center text-center">
+          <div className="relative z-10 mx-auto flex max-w-3xl flex-col px-6 pb-8 pt-20">
+            <InvitationNav lang={lang} activeSection={activeSection} setActiveSection={setActiveSection} />
+
+            {activeSection === "home" && (
+            <div className="flex flex-col items-center pt-16 text-center">
             <img src={weddingRings} alt="Wedding rings" className="mb-6 w-16 h-auto" />
-            <p className="mb-8 font-serif text-lg tracking-widest text-foreground" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-              {t.gettingMarried}
+            <p className="font-serif text-base tracking-[0.2em] text-muted-foreground" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+              {invitedText[lang]}
             </p>
-            <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-5xl text-foreground`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-              {lang === 'ar' ? <>قصر نيمفنبورغ<br /><span className="mt-3 inline-block">ميونخ</span></> : <>Schloss Nymphenburg,<br /><span className="mt-3 inline-block">M{"\u00FC"}nchen</span></>}
-            </h2>
+
+            <div className="w-56 md:w-72">
+              <LogoMark className="aspect-square w-full" />
+            </div>
 
             <p className="mt-4 font-serif text-lg tracking-widest text-foreground">
               {t.date}
+            </p>
+
+            <p className="mt-3 font-serif text-lg tracking-widest text-foreground">
+              {t.deadlineDate}
             </p>
 
             <div className="mt-6 flex gap-4 font-serif text-base tracking-wider text-muted-foreground">
@@ -294,25 +523,22 @@ const Index = () => {
 
             <div className="mt-10 flex gap-4">
               <a
-                href="https://luma.com/q218e9h9"
+                href="https://luma.com/9x6q8qjr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block border-2 border-black px-12 py-3 font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background"
               >
                 {t.rsvp}
               </a>
-              <button
-                onClick={() => setShowInfo(true)}
-                className="inline-block border border-black/40 px-8 py-3 font-serif text-sm tracking-[0.3em] text-black/70 transition-colors hover:border-black hover:text-black"
-              >
-                {t.moreInfo}
-              </button>
             </div>
-            <p className="mt-4 font-serif text-lg tracking-wide text-muted-foreground">
-              {t.deadlinePre}{" "}
-              <span className="font-bold text-foreground">{t.deadlineDate}</span>{" "}
-              {t.deadlinePost}
-            </p>
+            </div>
+            )}
+
+            {activeSection !== "home" && (
+              <div className={`mt-10 w-full pt-6 ${lang === "ar" ? "text-right" : "text-left"}`}>
+                <WeddingDetails lang={lang} activeSection={activeSection} />
+              </div>
+            )}
           </div>
         </div>
 
@@ -350,9 +576,17 @@ const Index = () => {
             className="absolute inset-0 flex flex-col items-center justify-center"
             style={{ backgroundColor: "#F7F5F2", backfaceVisibility: "hidden" }}
           >
+            <div className="absolute right-8 top-8 z-10">
+              <LangDropdown
+                lang={lang}
+                setLang={setLang}
+                open={desktopCoverLangOpen}
+                setOpen={setDesktopCoverLangOpen}
+                variant="cover"
+              />
+            </div>
             <div className="flex flex-col items-center gap-8 scale-95">
               <img src={weddingRings} alt="Wedding rings" className="w-20 h-auto" />
-              <LangDropdown lang={lang} setLang={setLang} open={open} setOpen={setOpen} variant="cover" />
                <div className="mb-8"></div>
                <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-5xl text-foreground flex gap-4`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
@@ -380,25 +614,21 @@ const Index = () => {
               transform: "rotateY(180deg)",
             }}
           >
-            <img
-              src={couplePhoto}
-              alt="Maisa und Amin"
-              className="absolute inset-0 h-full w-full object-cover scale-[1.2] object-center origin-bottom"
+            <HeroSlideshow
+              activeIndex={slideshowIndex}
+              imageClassName="absolute inset-0 h-full w-full object-cover scale-[1.03] object-center origin-bottom"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
             {/* Language selector on back face of card */}
             <div className="absolute left-6 top-6 z-20">
-              <LangDropdown lang={lang} setLang={setLang} open={open} setOpen={setOpen} variant="compact" />
-            </div>
-
-            <div className={`absolute bottom-12 z-10 text-primary-foreground ${lang === 'ar' ? 'right-8 text-right' : 'left-8 text-left'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-              <h1 className={`${lang === 'ar' ? 'font-script-ar text-6xl' : 'font-script text-7xl'} leading-tight drop-shadow-lg`}>
-                {lang === 'ar' ? <>ميساء و أمين</> : <>Maisa &<br />Amin</>}
-              </h1>
-              <p className="mt-3 font-serif text-lg tracking-wide drop-shadow-md">
-                {invitedText[lang]}
-              </p>
+              <LangDropdown
+                lang={lang}
+                setLang={setLang}
+                open={desktopCompactLangOpen}
+                setOpen={setDesktopCompactLangOpen}
+                variant="compact"
+              />
             </div>
           </div>
         </div>
@@ -424,9 +654,17 @@ const Index = () => {
              backfaceVisibility: "hidden",
            }}
          >
+           <div className="absolute right-5 top-5 z-10 min-[700px]:right-8 min-[700px]:top-8">
+             <LangDropdown
+               lang={lang}
+               setLang={setLang}
+               open={mobileCoverLangOpen}
+               setOpen={setMobileCoverLangOpen}
+               variant="cover"
+             />
+           </div>
            <div className="flex flex-col items-center gap-4 md:gap-8 px-6 max-w-[320px] min-[700px]:max-w-none min-[700px]:scale-95">
              <img src={weddingRings} alt="Wedding rings" className="w-14 min-[700px]:w-20 h-auto" />
-             <LangDropdown lang={lang} setLang={setLang} open={open} setOpen={setOpen} variant="cover" />
              <div className="mb-4 min-[700px]:mb-8"></div>
              <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-4xl min-[700px]:text-5xl text-foreground flex gap-3 min-[700px]:gap-4`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                {coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
@@ -454,7 +692,13 @@ const Index = () => {
            >
              {/* Language selector on back face */}
              <div className="absolute left-4 top-4 z-20">
-               <LangDropdown lang={lang} setLang={setLang} open={open} setOpen={setOpen} variant="compact" />
+               <LangDropdown
+                 lang={lang}
+                 setLang={setLang}
+                 open={mobileCompactLangOpen}
+                 setOpen={setMobileCompactLangOpen}
+                 variant="compact"
+               />
              </div>
            </div>
          </div>
@@ -462,50 +706,49 @@ const Index = () => {
 
       {/* Mobile/Tablet Main Content (underneath cover) */}
       <div className="lg:hidden flex min-h-screen flex-col">
-        {/* Language selector - top left */}
-        <div className="fixed left-4 top-4 z-40">
-          <LangDropdown lang={lang} setLang={setLang} open={open} setOpen={setOpen} variant="compact" />
-        </div>
-
         {/* Photo */}
-        <div className="relative w-full min-h-[60vh] overflow-hidden">
-          <img
-            src={couplePhoto}
-            alt="Maisa und Amin"
-            className="absolute inset-0 h-full w-full object-cover scale-[1.18] md:scale-[1.2] object-[center_30%] md:object-[center_25%] origin-bottom"
+        <div id="mobile-home" className="relative w-full min-h-[60vh] overflow-hidden">
+          <HeroSlideshow
+            activeIndex={slideshowIndex}
+            imageClassName="absolute inset-0 h-full w-full object-cover scale-[1.02] md:scale-[1.04] object-[center_12%] md:object-[center_16%] origin-bottom"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
+          <MobileAnchorNav
+            lang={lang}
+            setLang={setLang}
+            langOpen={mobileLangOpen}
+            setLangOpen={setMobileLangOpen}
+            menuOpen={mobileMenuOpen}
+            setMenuOpen={setMobileMenuOpen}
+          />
 
-          {/* Names overlay */}
-          <div className={`absolute bottom-12 z-10 text-primary-foreground ${lang === 'ar' ? 'right-8 text-right' : 'left-8 text-left'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-            <h1 className={`${lang === 'ar' ? 'font-script-ar text-4xl md:text-6xl' : 'font-script text-5xl md:text-7xl'} leading-tight drop-shadow-lg`}>
-              {lang === 'ar' ? <>ميساء و أمين</> : <>Maisa &<br />Amin</>}
-            </h1>
-            <p className="mt-3 font-serif text-lg tracking-wide drop-shadow-md">
-              {invitedText[lang]}
-            </p>
-          </div>
         </div>
 
         {/* Details */}
-        <div className="relative flex w-full flex-col items-center justify-center min-[700px]:max-[1023px]:justify-start bg-background px-8 py-16 overflow-hidden">
-          <img src={floralTop} alt="" className="pointer-events-none absolute -top-7 -right-8 w-[11.5rem] min-[700px]:max-[1023px]:w-[16.8rem] opacity-90" />
+        <div className="relative flex w-full flex-col items-center justify-center min-[700px]:max-[1023px]:justify-start bg-background px-5 py-10 overflow-hidden sm:px-6 md:px-8 md:py-16">
+          <img src={floralTop} alt="" className="pointer-events-none absolute right-0 top-0 w-[8rem] opacity-70 min-[700px]:max-[1023px]:w-[12rem]" />
           <img src={floralBottom} alt="" className="pointer-events-none absolute -bottom-4 min-[700px]:max-[1023px]:-bottom-1 -left-4 w-40 min-[700px]:max-[1023px]:w-[14.85rem] opacity-90" />
 
-          <div className="relative z-10 flex flex-col items-center text-center">
-            <p className="mb-8 font-serif text-lg tracking-widest text-foreground" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-              {t.gettingMarried}
+          <div className="relative z-10 flex w-full max-w-3xl flex-col">
+            <div className="flex flex-col items-center pt-12 text-center">
+            <p className="font-serif text-sm tracking-[0.2em] text-muted-foreground md:text-base" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+              {invitedText[lang]}
             </p>
-            <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-4xl md:text-5xl text-foreground`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-              {lang === 'ar' ? <>قصر نيمفنبورغ<br /><span className="mt-3 inline-block">ميونخ</span></> : <>Schloss Nymphenburg,<br /><span className="mt-3 inline-block">M{"\u00FC"}nchen</span></>}
-            </h2>
+
+            <div className="w-44 sm:w-52 md:w-60">
+              <LogoMark className="aspect-square w-full" />
+            </div>
 
             <p className="mt-4 font-serif text-lg tracking-widest text-foreground">
               {t.date}
             </p>
 
-            <div className="mt-6 flex gap-4 font-serif text-base tracking-wider text-muted-foreground">
+            <p className="mt-3 font-serif text-lg tracking-widest text-foreground">
+              {t.deadlineDate}
+            </p>
+
+            <div className="mt-6 flex flex-wrap justify-center gap-4 font-serif text-base tracking-wider text-muted-foreground">
               <span>{timeLeft.days} {t.days}</span>
               <span>{timeLeft.hours} {t.hrs}</span>
               <span>{timeLeft.minutes} {t.min}</span>
@@ -517,40 +760,19 @@ const Index = () => {
                 href="https://luma.com/q218e9h9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block border-2 border-black px-12 py-3 font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background"
+                className="inline-block max-w-full border-2 border-black px-8 py-3 text-center font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background sm:px-12"
               >
                 {t.rsvp}
               </a>
-              <button
-                onClick={() => setShowInfo(true)}
-                className="inline-block border border-black/40 px-8 py-3 font-serif text-sm tracking-[0.3em] text-black/70 transition-colors hover:border-black hover:text-black"
-              >
-                {t.moreInfo}
-              </button>
             </div>
-            <p className="mt-4 mb-[40px] md:mb-0 font-serif text-base md:text-lg tracking-wide text-muted-foreground min-[700px]:max-[1023px]:min-h-[5.5rem]">
-              <span className="max-[1023px]:block">{t.deadlinePre}</span>{" "}
-              <span className="font-bold text-foreground max-[1023px]:block">{t.deadlineDate}</span>{" "}
-              <span className="max-[1023px]:block">{t.deadlinePost}</span>
-            </p>
+            </div>
+
+            <div className={`mt-8 w-full border-t border-border/60 pt-8 ${lang === "ar" ? "text-right" : "text-left"}`}>
+              <WeddingDetails lang={lang} showAll />
+            </div>
           </div>
         </div>
       </div>
-
-      {/* More Info Modal - Mobile/Tablet */}
-      {showInfo && (
-        <div className="lg:hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 min-[700px]:p-12" onClick={() => setShowInfo(false)}>
-           <div className="relative w-full max-w-md min-[700px]:max-w-[600px] h-full max-h-[650px] min-[700px]:max-h-[740px] rounded-[10px] bg-background shadow-2xl overflow-y-auto p-4 min-[700px]:p-8" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setShowInfo(false)}
-              className="absolute top-4 right-4 font-serif text-2xl text-black/60 hover:text-black transition-colors"
-            >
-              {"\u2715"}
-            </button>
-            <WeddingDetails lang={lang} />
-          </div>
-        </div>
-      )}
     </>
   );
 };
