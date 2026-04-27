@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import WeddingDetails from "@/components/WeddingDetails";
-import hero537 from "@/assets/hero-537.jpg";
-import hero539 from "@/assets/hero-539.jpg";
-import hero541 from "@/assets/hero-541.jpg";
-import hero542 from "@/assets/hero-542.jpg";
-import hero543 from "@/assets/hero-543.jpg";
-import hero545 from "@/assets/hero-545.jpg";
-import floralBottom from "@/assets/floral-bottom-left-watercolor.png";
-import floralTop from "@/assets/floral-top-right-watercolor.png";
-import weddingLogo from "@/assets/wedding-logo.png";
+import hero537 from "@/assets/hero-537.webp";
+import hero539 from "@/assets/hero-539.webp";
+import hero541 from "@/assets/hero-541.webp";
+import hero542 from "@/assets/hero-542.webp";
+import hero543 from "@/assets/hero-543.webp";
+import hero545 from "@/assets/hero-545.webp";
+import floralBottom from "@/assets/floral-bottom-left-watercolor.webp";
+import floralTop from "@/assets/floral-top-right-watercolor.webp";
+import weddingLogo from "@/assets/wedding-logo.webp";
 
 import useCountdown from "@/hooks/useCountdown";
-import weddingRings from "@/assets/wedding-rings.png";
-import tunisiaFlag from "@/assets/tunisia-flag.png";
+import weddingRings from "@/assets/wedding-rings.webp";
+import tunisiaFlag from "@/assets/tunisia-flag.webp";
 
 const WEDDING_DATE = new Date("2026-09-03T15:00:00");
 const HERO_PHOTOS = [hero537, hero539, hero541, hero542, hero543, hero545];

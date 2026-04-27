@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Flower2, Heart, House, Plane, UtensilsCrossed } from "lucide-react";
-import mehndiIcon from "@/assets/mehndi.png";
+import mehndiIcon from "@/assets/mehndi.webp";
 
 type Lang = "de" | "en" | "ar";
 type SectionId = "story" | "details" | "travel" | "activities";
