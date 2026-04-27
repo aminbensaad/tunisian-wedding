@@ -9,7 +9,7 @@ import hero543 from "@/assets/hero-543.webp";
 import hero545 from "@/assets/hero-545.webp";
 import floralBottom from "@/assets/floral-bottom-left-watercolor.webp";
 import floralTop from "@/assets/floral-top-right-watercolor.webp";
-import weddingLogo from "@/assets/wedding-logo.webp";
+import weddingLogo from "@/assets/wedding-logo.png";
 
 import useCountdown from "@/hooks/useCountdown";
 import weddingRings from "@/assets/wedding-rings.webp";
