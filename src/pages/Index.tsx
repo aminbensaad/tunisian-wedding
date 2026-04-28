@@ -619,20 +619,19 @@ const Index = () => {
               imageClassName="absolute inset-0 h-full w-full object-cover scale-[1.03] object-center origin-bottom"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+            {/* Language selector on back face of card */}
+            <div className="absolute left-6 top-6 z-20">
+              <LangDropdown
+                lang={lang}
+                setLang={setLang}
+                open={desktopCompactLangOpen}
+                setOpen={setDesktopCompactLangOpen}
+                variant="compact"
+              />
+            </div>
           </div>
         </div>
-
-        {isCardOpen && (
-          <div className="absolute left-6 top-6 z-30">
-            <LangDropdown
-              lang={lang}
-              setLang={setLang}
-              open={desktopCompactLangOpen}
-              setOpen={setDesktopCompactLangOpen}
-              variant="compact"
-            />
-          </div>
-        )}
       </div>
 
       {/* ===== MOBILE / TABLET: Cover + Normal Layout ===== */}
