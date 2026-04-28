@@ -89,6 +89,7 @@ type ActiveSection = "home" | "story" | "details" | "travel" | "activities";
 
 const langLabel: Record<Lang, string> = { de: "DEUTSCH", en: "ENGLISH", ar: "ARABE" };
 const langShort: Record<Lang, string> = { de: "DE", en: "EN", ar: "AR" };
+const langTiny: Record<Lang, string> = { de: "DEU", en: "ENG", ar: "ARB" };
 const langFull: Record<Lang, string> = { de: "Deutsch", en: "English", ar: "Arabe" };
 
 const coverHeading: Record<Lang, string[]> = {
@@ -174,7 +175,7 @@ const LogoMark = ({ className }: { className: string }) => (
       WebkitMaskSize: "contain",
       maskSize: "contain",
       background:
-        "linear-gradient(135deg, #ef9aaa 0%, #e9879e 22%, #f0c46f 50%, #c7e5dd 74%, #8ecfd3 100%)",
+        "linear-gradient(135deg, #ef9aaa 0%, #e9879e 22%, #f0c46f 50%, #9fc9bc 74%, #5fa7b0 100%)",
     }}
   />
 );
@@ -286,31 +287,31 @@ const MobileAnchorNav = ({
             setMenuOpen(!menuOpen);
             setLangOpen(false);
           }}
-          className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+          className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
             isOverLightSection
               ? "bg-background text-[#9b7a2b] shadow-[0_10px_30px_rgba(155,122,43,0.12)]"
               : `${mobileTextColor} ${mobileHoverColor} bg-black/20 backdrop-blur-md`
           }`}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
-          {menuOpen ? <X size={15} /> : <Menu size={15} />}
+          {menuOpen ? <X size={19} /> : <Menu size={19} />}
         </button>
 
         {menuOpen && (
           <div
-            className={`absolute right-0 top-14 min-w-[13rem] rounded-[1.6rem] border px-4 py-4 shadow-lg backdrop-blur-md ${
+            className={`absolute right-0 top-16 min-w-[16rem] rounded-[1.75rem] border px-5 py-5 shadow-lg backdrop-blur-md ${
               isOverLightSection
                 ? "border-[#9b7a2b]/18 bg-background"
                 : "border-white/15 bg-black/45"
             }`}
           >
-            <div className={`flex flex-col gap-3 text-[0.78rem] tracking-[0.22em] ${mobileTextColor} ${lang === "ar" ? "text-right" : ""}`}>
+            <div className={`flex flex-col gap-4 text-sm tracking-[0.18em] ${mobileTextColor} ${lang === "ar" ? "text-right" : ""}`}>
               {orderedNavItems.map((item) => (
                 <a
                   key={item.key}
                   href={item.key === "home" ? "#mobile-home" : `#${item.key}`}
                   onClick={() => setMenuOpen(false)}
-                  className={`transition-colors ${mobileHoverColor}`}
+                  className={`rounded-xl px-2 py-1 transition-colors ${mobileHoverColor}`}
                 >
                   {t[item.labelKey]}
                 </a>
@@ -320,14 +321,14 @@ const MobileAnchorNav = ({
             <div className={`mt-4 border-t pt-4 ${isOverLightSection ? "border-[#9b7a2b]/20" : "border-white/15"}`} data-lang-menu="true">
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className={`flex items-center gap-2 text-[0.72rem] tracking-[0.22em] transition-colors ${mobileTextColor}`}
+                className={`flex items-center gap-3 rounded-xl px-2 py-2 text-sm tracking-[0.18em] transition-colors ${mobileTextColor}`}
               >
                 <span className="h-4 w-6 overflow-hidden rounded-sm">{flagForLang(lang)}</span>
                 {langShort[lang]}
-                <ChevronDown size={14} className={`transition-transform ${langOpen ? "rotate-180" : ""}`} />
+                <ChevronDown size={16} className={`transition-transform ${langOpen ? "rotate-180" : ""}`} />
               </button>
               {langOpen && (
-                <div className="mt-3 space-y-1">
+                <div className="mt-3 space-y-2">
                   {allLangs.map((option) => (
                     <button
                       key={option}
@@ -336,7 +337,7 @@ const MobileAnchorNav = ({
                         setLangOpen(false);
                         setMenuOpen(false);
                       }}
-                      className={`flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left text-[0.72rem] tracking-[0.18em] transition-colors ${
+                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm tracking-[0.16em] transition-colors ${
                         option === lang
                           ? isOverLightSection
                             ? "text-[#9b7a2b]"
@@ -363,7 +364,7 @@ const MobileAnchorNav = ({
 const LangDropdown = ({
   lang, setLang, open, setOpen, variant,
 }: {
-  lang: Lang; setLang: (l: Lang) => void; open: boolean; setOpen: (o: boolean) => void; variant: "cover" | "compact";
+  lang: Lang; setLang: (l: Lang) => void; open: boolean; setOpen: (o: boolean) => void; variant: "cover" | "compact" | "coverCompact";
 }) => {
   if (variant === "cover") {
     return (
@@ -386,6 +387,35 @@ const LangDropdown = ({
               >
                 <div className="pointer-events-none h-6 w-6 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
                 {langLabel[l]}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (variant === "coverCompact") {
+    return (
+      <div className="relative" data-lang-menu="true">
+        <button
+          onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
+          className="flex items-center gap-2 rounded-full bg-white/92 px-4 py-2 font-serif text-sm tracking-[0.18em] text-foreground shadow-sm backdrop-blur-sm"
+        >
+          <div className="pointer-events-none h-5 w-7 overflow-hidden rounded-sm">{flagForLang(lang)}</div>
+          {langTiny[lang]}
+          <ChevronDown size={15} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+        </button>
+        {open && (
+          <div className="absolute right-0 top-12 flex min-w-[9rem] flex-col gap-1 rounded-xl bg-white p-1.5 shadow-lg">
+            {allLangs.map((l) => (
+              <button
+                key={l}
+                onClick={(e) => { e.stopPropagation(); setLang(l); setOpen(false); }}
+                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left font-serif text-sm tracking-[0.14em] transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
+              >
+                <div className="pointer-events-none h-5 w-7 overflow-hidden rounded-sm">{flagForLang(l)}</div>
+                {langTiny[l]}
               </button>
             ))}
           </div>
@@ -598,10 +628,10 @@ const Index = () => {
                <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-5xl text-foreground flex gap-4`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
               </h2>
-               <p className="max-w-sm font-serif text-xl text-foreground/80 text-center leading-relaxed pt-4" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+               <p className="max-w-sm font-serif text-xl text-muted-foreground text-center leading-relaxed pt-4" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverText1[lang]}
                </p>
-               <p className="max-w-sm font-serif text-xl text-foreground/80 text-center leading-relaxed pb-4" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+               <p className="max-w-sm font-serif text-xl text-muted-foreground text-center leading-relaxed pb-4" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverText2[lang]}
                </p>
               <button
@@ -668,7 +698,7 @@ const Index = () => {
                setLang={setLang}
                open={mobileCoverLangOpen}
                setOpen={setMobileCoverLangOpen}
-               variant="cover"
+               variant="coverCompact"
              />
            </div>
            <div className="flex flex-col items-center gap-4 md:gap-8 px-6 max-w-[320px] min-[700px]:max-w-none min-[700px]:scale-95">
@@ -677,10 +707,10 @@ const Index = () => {
              <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-4xl min-[700px]:text-5xl text-foreground flex gap-3 min-[700px]:gap-4`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                {coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
              </h2>
-             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-foreground/80 text-center leading-relaxed pt-6 min-[700px]:pt-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-muted-foreground text-center leading-relaxed pt-6 min-[700px]:pt-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                {coverText1[lang]}
              </p>
-             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-foreground/80 text-center leading-relaxed pb-6 min-[700px]:pb-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-muted-foreground text-center leading-relaxed pb-6 min-[700px]:pb-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                {coverText2[lang]}
              </p>
              <button

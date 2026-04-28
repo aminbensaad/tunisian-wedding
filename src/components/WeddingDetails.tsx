@@ -16,6 +16,7 @@ interface ItineraryEntry {
   time: string;
   title: string;
   location: string;
+  locationUrl?: string;
   description: string;
   dressCode: string;
   icon: "dinner" | "henna" | "wedding";
@@ -60,6 +61,8 @@ const content = {
             time: "20:00",
             title: "Welcome Dinner",
             location: "Bei Maisas Eltern",
+            locationUrl:
+              "https://www.google.com/maps/place/35%C2%B037'50.4%22N+10%C2%B046'34.0%22E/@35.630653,10.776123,17z/data=!3m1!4b1!4m4!3m3!8m2!3d35.630653!4d10.776123?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "Ein entspannter Abend zu Hause mit gutem Essen, Gesprächen und Zeit, gemeinsam anzukommen.",
             dressCode: "Smart casual",
@@ -69,7 +72,9 @@ const content = {
             date: "4. September",
             time: "21:00",
             title: "Henna Nacht",
-            location: "Ennour Palace, Jemmal",
+            location: "Salle des fêtes Ennour",
+            locationUrl:
+              "https://www.google.com/maps/place/Salle+des+fetes+Ennour/@35.5818163,-0.1889515,6z/data=!4m6!3m5!1s0x13020f46a15d7f81:0x3191e92895e2f4b2!8m2!3d35.65265!4d10.7690014!16s%2Fg%2F11g233wgrw?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "Ein freudiger Abend voller Tradition, Musik und Tanz, an dem wir diesen besonderen Moment feiern.",
             dressCode: "Traditionell tunesisch (bevorzugt) oder festliche Kleidung",
@@ -79,7 +84,9 @@ const content = {
             date: "5. September",
             time: "21:00",
             title: "Hochzeitsfeier",
-            location: "Salle des Fetes Om Ezzine, Jemmal",
+            location: "Salle de fêtes Omezzine",
+            locationUrl:
+              "https://www.google.com/maps/place/Salle+de+f%C3%AAtes+Omezzine+-+Jemmal/@35.603043,10.7493178,17z/data=!4m6!3m5!1s0x13020586ad468791:0xf0bc66896f8e0979!8m2!3d35.6030623!4d10.7491913!16s%2Fg%2F11b5ytw436?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "Unsere grosse Feier, voller Liebe, Musik und ganz viel Tanz.",
             dressCode: "Formal / Elegant",
@@ -200,6 +207,8 @@ const content = {
             time: "20:00",
             title: "Welcome Dinner",
             location: "Maisa’s Parents’ Home",
+            locationUrl:
+              "https://www.google.com/maps/place/35%C2%B037'50.4%22N+10%C2%B046'34.0%22E/@35.630653,10.776123,17z/data=!3m1!4b1!4m4!3m3!8m2!3d35.630653!4d10.776123?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "A relaxed evening at home with good food, conversation, and time to settle in together.",
             dressCode: "Smart casual",
@@ -209,7 +218,9 @@ const content = {
             date: "September 4th",
             time: "21:00",
             title: "Henna Night",
-            location: "Ennour Palace, Jemmal",
+            location: "Salle des fêtes Ennour",
+            locationUrl:
+              "https://www.google.com/maps/place/Salle+des+fetes+Ennour/@35.5818163,-0.1889515,6z/data=!4m6!3m5!1s0x13020f46a15d7f81:0x3191e92895e2f4b2!8m2!3d35.65265!4d10.7690014!16s%2Fg%2F11g233wgrw?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "A joyful night of tradition, music, and dancing.",
             dressCode: "Traditional Tunisian (preferred) or festive attire",
@@ -219,7 +230,9 @@ const content = {
             date: "September 5th",
             time: "21:00",
             title: "Wedding Celebration",
-            location: "Salle des Fetes Om Ezzine, Jemmal",
+            location: "Salle de fêtes Omezzine",
+            locationUrl:
+              "https://www.google.com/maps/place/Salle+de+f%C3%AAtes+Omezzine+-+Jemmal/@35.603043,10.7493178,17z/data=!4m6!3m5!1s0x13020586ad468791:0xf0bc66896f8e0979!8m2!3d35.6030623!4d10.7491913!16s%2Fg%2F11b5ytw436?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "Our main celebration, filled with love, music, and lots of dancing.",
             dressCode: "Formal / Elegant",
@@ -342,6 +355,8 @@ const content = {
             time: "20:00",
             title: "عشاء ترحيبي",
             location: "منزل والدي ميساء",
+            locationUrl:
+              "https://www.google.com/maps/place/35%C2%B037'50.4%22N+10%C2%B046'34.0%22E/@35.630653,10.776123,17z/data=!3m1!4b1!4m4!3m3!8m2!3d35.630653!4d10.776123?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "أمسية هادئة في البيت مع طعام طيب وأحاديث جميلة ووقت لنبدأ الأجواء معاً.",
             dressCode: "أنيق مريح",
@@ -352,6 +367,8 @@ const content = {
             time: "21:00",
             title: "ليلة الحناء",
             location: "قصر النور، جمال",
+            locationUrl:
+              "https://www.google.com/maps/place/Salle+des+fetes+Ennour/@35.5818163,-0.1889515,6z/data=!4m6!3m5!1s0x13020f46a15d7f81:0x3191e92895e2f4b2!8m2!3d35.65265!4d10.7690014!16s%2Fg%2F11g233wgrw?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "ليلة مليئة بالفرح والتقاليد والموسيقى والرقص احتفالاً بهذه اللحظة الخاصة.",
             dressCode: "لباس تونسي تقليدي (مفضل) أو لباس احتفالي",
@@ -362,6 +379,8 @@ const content = {
             time: "21:00",
             title: "حفل الزفاف",
             location: "قاعة أفراح أم الزين، جمال",
+            locationUrl:
+              "https://www.google.com/maps/place/Salle+de+f%C3%AAtes+Omezzine+-+Jemmal/@35.603043,10.7493178,17z/data=!4m6!3m5!1s0x13020586ad468791:0xf0bc66896f8e0979!8m2!3d35.6030623!4d10.7491913!16s%2Fg%2F11b5ytw436?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D",
             description:
               "احتفالنا الرئيسي المليء بالحب والموسيقى والكثير من الرقص.",
             dressCode: "رسمي / أنيق",
@@ -500,6 +519,23 @@ const WeddingDetails: FC<WeddingDetailsProps> = ({ lang, activeSection, showAll 
   );
 };
 
+const LocationLink = ({ item, className }: { item: ItineraryEntry; className: string }) => {
+  if (!item.locationUrl) {
+    return <p className={className}>{item.location}</p>;
+  }
+
+  return (
+    <a
+      href={item.locationUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${className} inline-flex w-fit items-center border-b border-current/30 transition-colors hover:text-[#c78e7e] hover:border-current/60`}
+    >
+      {item.location}
+    </a>
+  );
+};
+
 const renderSectionContent = (
   section: {
     body?: readonly string[];
@@ -548,7 +584,10 @@ const renderSectionContent = (
                     <p className={isArabic ? "text-lg font-semibold text-foreground/85 2xl:text-xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                       {item.title}
                     </p>
-                    <p className={isArabic ? "mt-1 text-sm text-muted-foreground" : "mt-1 text-sm tracking-[0.12em] text-muted-foreground"}>{item.location}</p>
+                    <LocationLink
+                      item={item}
+                      className={isArabic ? "mt-1 text-sm text-muted-foreground" : "mt-1 text-sm tracking-[0.12em] text-muted-foreground"}
+                    />
                   </div>
                 </div>
 
@@ -556,7 +595,10 @@ const renderSectionContent = (
                   <p className={isArabic ? "text-lg font-semibold text-foreground/85 md:text-xl 2xl:text-2xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                     {item.title}
                   </p>
-                  <p className={isArabic ? "mt-2 text-base font-medium text-foreground 2xl:text-lg" : "mt-2 text-base font-medium tracking-[0.08em] text-foreground 2xl:text-lg"}>{item.location}</p>
+                  <LocationLink
+                    item={item}
+                    className={isArabic ? "mt-2 text-base font-medium text-foreground 2xl:text-lg" : "mt-2 text-base font-medium tracking-[0.08em] text-foreground 2xl:text-lg"}
+                  />
                 </div>
 
                 <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">{item.description}</p>
