@@ -757,7 +757,7 @@ const Index = () => {
 
             <div className="mt-10 flex flex-col md:flex-row gap-4">
               <a
-                href="https://luma.com/q218e9h9"
+                href="https://luma.com/9x6q8qjr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block max-w-full border-2 border-black px-8 py-3 text-center font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background sm:px-12"
