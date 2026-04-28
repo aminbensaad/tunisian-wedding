@@ -106,8 +106,14 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   html {
-    font-size: 80%;
+    font-size: 103.125%;
+  }
+}
+
+@media (min-width: 1536px) {
+  html {
+    font-size: 106.25%;
   }
 }

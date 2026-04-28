@@ -21,7 +21,7 @@ const HERO_PHOTOS = [hero537, hero539, hero541, hero542, hero543, hero545];
 const translations = {
   de: {
     gettingMarried: "Unser Hochzeitswochenende",
-    home: "About",
+    home: "Über uns",
     story: "Unsere Geschichte",
     detailsNav: "Details",
     travel: "Anreise",
@@ -229,7 +229,7 @@ const InvitationNav = ({
 
   return (
     <nav className={`w-full ${mobilePinned ? "sticky top-0 z-20 -mx-5 border-b border-border/60 bg-background/95 px-5 py-4 backdrop-blur sm:-mx-6 sm:px-6 md:hidden" : ""}`}>
-      <div className={`${mobilePinned ? "flex min-w-max gap-5 overflow-x-auto whitespace-nowrap text-[0.72rem]" : `flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-[0.7rem] md:text-sm md:justify-start ${lang === "ar" ? "md:pl-56" : ""}`} tracking-[0.22em] text-foreground/55 md:tracking-[0.2em]`}>
+      <div className={`${mobilePinned ? "flex min-w-max gap-5 overflow-x-auto whitespace-nowrap text-[0.72rem]" : `flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-[0.7rem] md:text-sm lg:gap-x-6 lg:text-[0.86rem] xl:text-[0.94rem] md:justify-start ${lang === "ar" ? "md:pl-56" : ""}`} tracking-[0.22em] text-foreground/55 md:tracking-[0.2em]`}>
         {orderedNavItems.map((item) => (
           <button
             key={item.key}
@@ -265,8 +265,8 @@ const MobileAnchorNav = ({
 }) => {
   const t = translations[lang];
   const [isOverLightSection, setIsOverLightSection] = useState(false);
-  const mobileTextColor = isOverLightSection ? "text-[#9b7a2b]" : "text-white/90";
-  const mobileHoverColor = isOverLightSection ? "hover:text-[#9b7a2b]" : "hover:text-white";
+  const mobileTextColor = isOverLightSection ? "text-black" : "text-white/90";
+  const mobileHoverColor = isOverLightSection ? "hover:text-black" : "hover:text-white";
   const orderedNavItems = lang === "ar" ? [...navItems].reverse() : navItems;
 
   useEffect(() => {
@@ -289,7 +289,7 @@ const MobileAnchorNav = ({
           }}
           className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${
             isOverLightSection
-              ? "bg-background text-[#9b7a2b] shadow-[0_10px_30px_rgba(155,122,43,0.12)]"
+              ? "bg-background text-black shadow-[0_10px_30px_rgba(0,0,0,0.08)]"
               : `${mobileTextColor} ${mobileHoverColor} bg-black/20 backdrop-blur-md`
           }`}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -301,27 +301,27 @@ const MobileAnchorNav = ({
           <div
             className={`absolute right-0 top-16 min-w-[16rem] rounded-[1.75rem] border px-5 py-5 shadow-lg backdrop-blur-md ${
               isOverLightSection
-                ? "border-[#9b7a2b]/18 bg-background"
-                : "border-white/15 bg-black/45"
+                ? "border-black/10 bg-background"
+                : "border-white/20 bg-black/72"
             }`}
           >
-            <div className={`flex flex-col gap-4 text-sm tracking-[0.18em] ${mobileTextColor} ${lang === "ar" ? "text-right" : ""}`}>
+            <div className={`flex flex-col gap-4 text-[1.02rem] tracking-[0.14em] ${mobileTextColor} ${lang === "ar" ? "text-right" : ""}`}>
               {orderedNavItems.map((item) => (
                 <a
                   key={item.key}
                   href={item.key === "home" ? "#mobile-home" : `#${item.key}`}
                   onClick={() => setMenuOpen(false)}
-                  className={`rounded-xl px-2 py-1 transition-colors ${mobileHoverColor}`}
+                  className={`rounded-xl px-2 py-2 transition-colors ${mobileHoverColor}`}
                 >
                   {t[item.labelKey]}
                 </a>
               ))}
             </div>
 
-            <div className={`mt-4 border-t pt-4 ${isOverLightSection ? "border-[#9b7a2b]/20" : "border-white/15"}`} data-lang-menu="true">
+            <div className={`mt-4 border-t pt-4 ${isOverLightSection ? "border-black/10" : "border-white/15"}`} data-lang-menu="true">
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className={`flex items-center gap-3 rounded-xl px-2 py-2 text-sm tracking-[0.18em] transition-colors ${mobileTextColor}`}
+                className={`flex items-center gap-3 rounded-xl px-2 py-2 text-[1rem] tracking-[0.14em] transition-colors ${mobileTextColor}`}
               >
                 <span className="h-4 w-6 overflow-hidden rounded-sm">{flagForLang(lang)}</span>
                 {langShort[lang]}
@@ -329,7 +329,7 @@ const MobileAnchorNav = ({
               </button>
               {langOpen && (
                 <div className="mt-3 space-y-2">
-                  {allLangs.map((option) => (
+                  {allLangs.filter((option) => option !== lang).map((option) => (
                     <button
                       key={option}
                       onClick={() => {
@@ -337,14 +337,10 @@ const MobileAnchorNav = ({
                         setLangOpen(false);
                         setMenuOpen(false);
                       }}
-                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm tracking-[0.16em] transition-colors ${
-                        option === lang
-                          ? isOverLightSection
-                            ? "text-[#9b7a2b]"
-                            : "text-white"
-                          : isOverLightSection
-                            ? "text-foreground/75 hover:bg-black/5"
-                            : "text-white/75 hover:bg-white/10"
+                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-[1rem] tracking-[0.14em] transition-colors ${
+                        isOverLightSection
+                          ? "text-black/80 hover:bg-black/5"
+                          : "text-white/90 hover:bg-white/10"
                       }`}
                     >
                       <span className="h-4 w-6 overflow-hidden rounded-sm">{flagForLang(option)}</span>
@@ -366,6 +362,8 @@ const LangDropdown = ({
 }: {
   lang: Lang; setLang: (l: Lang) => void; open: boolean; setOpen: (o: boolean) => void; variant: "cover" | "compact" | "coverCompact";
 }) => {
+  const availableLangs = allLangs.filter((option) => option !== lang);
+
   if (variant === "cover") {
     return (
       <div className="relative" data-lang-menu="true">
@@ -379,11 +377,11 @@ const LangDropdown = ({
         </button>
         {open && (
           <div className="absolute left-1/2 -translate-x-1/2 top-12 flex flex-col gap-1 rounded-xl bg-white p-1.5 shadow-lg min-w-[170px]">
-            {allLangs.map((l) => (
+            {availableLangs.map((l) => (
               <button
                 key={l}
                 onClick={(e) => { e.stopPropagation(); setLang(l); setOpen(false); }}
-                className={`flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left font-serif text-sm tracking-wide transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
+                className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left font-serif text-sm tracking-wide text-foreground transition-colors hover:bg-black hover:text-white"
               >
                 <div className="pointer-events-none h-6 w-6 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
                 {langLabel[l]}
@@ -408,11 +406,11 @@ const LangDropdown = ({
         </button>
         {open && (
           <div className="absolute right-0 top-12 flex min-w-[9rem] flex-col gap-1 rounded-xl bg-white p-1.5 shadow-lg">
-            {allLangs.map((l) => (
+            {availableLangs.map((l) => (
               <button
                 key={l}
                 onClick={(e) => { e.stopPropagation(); setLang(l); setOpen(false); }}
-                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left font-serif text-sm tracking-[0.14em] transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left font-serif text-sm tracking-[0.14em] text-foreground transition-colors hover:bg-black hover:text-white"
               >
                 <div className="pointer-events-none h-5 w-7 overflow-hidden rounded-sm">{flagForLang(l)}</div>
                 {langTiny[l]}
@@ -426,21 +424,22 @@ const LangDropdown = ({
 
   // compact variant
   return (
-    <div data-lang-menu="true">
+    <div className="relative inline-flex" data-lang-menu="true">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center gap-2 rounded-full bg-background/90 px-4 py-2 font-serif text-sm tracking-widest text-foreground shadow-md backdrop-blur-sm"
+        className="inline-flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 font-serif text-sm tracking-widest text-foreground shadow-md backdrop-blur-sm"
       >
         <div className="pointer-events-none h-5 w-7 overflow-hidden rounded-sm">{flagForLang(lang)}</div>
         {langShort[lang]}
+        <ChevronDown size={15} className={`transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute left-0 top-14 flex flex-col gap-1 rounded-xl bg-background/95 p-2 shadow-lg backdrop-blur-sm">
-          {allLangs.map((l) => (
+        <div className="absolute left-0 top-14 z-10 flex min-w-full flex-col gap-1 rounded-xl bg-background/95 p-2 shadow-lg backdrop-blur-sm">
+          {availableLangs.map((l) => (
             <button
               key={l}
               onClick={() => { setLang(l); setOpen(false); }}
-              className={`flex w-full items-center gap-3 rounded-lg px-5 py-3 text-left font-serif text-base tracking-wide transition-colors ${lang === l ? "bg-black text-white" : "text-foreground hover:bg-black hover:text-white"}`}
+              className="flex w-full items-center gap-3 rounded-lg px-5 py-3 text-left font-serif text-base tracking-wide text-foreground transition-colors hover:bg-black hover:text-white"
             >
               <div className="pointer-events-none h-8 w-8 overflow-hidden rounded-full border border-white">{flagForLang(l)}</div>
               {langFull[l]}
@@ -456,7 +455,6 @@ const Index = () => {
   const timeLeft = useCountdown(WEDDING_DATE);
   const [lang, setLang] = useState<Lang>("en");
   const [desktopCoverLangOpen, setDesktopCoverLangOpen] = useState(false);
-  const [desktopCompactLangOpen, setDesktopCompactLangOpen] = useState(false);
   const [mobileCoverLangOpen, setMobileCoverLangOpen] = useState(false);
   const [mobileCompactLangOpen, setMobileCompactLangOpen] = useState(false);
   const [mobileLangOpen, setMobileLangOpen] = useState(false);
@@ -478,7 +476,6 @@ const Index = () => {
 
   useEffect(() => {
     setDesktopCoverLangOpen(false);
-    setDesktopCompactLangOpen(false);
   }, [isCardOpen]);
 
   useEffect(() => {
@@ -486,7 +483,6 @@ const Index = () => {
       const target = e.target as Element | null;
       if (!target?.closest("[data-lang-menu='true']")) {
         setDesktopCoverLangOpen(false);
-        setDesktopCompactLangOpen(false);
         setMobileCoverLangOpen(false);
         setMobileCompactLangOpen(false);
         setMobileLangOpen(false);
@@ -523,45 +519,43 @@ const Index = () => {
         </div>
 
         {/* Right Side - Details content (always visible underneath grey backing) */}
-        <div className="absolute right-0 top-0 w-1/2 h-full overflow-y-auto bg-background px-8 2xl:px-12">
+        <div className="absolute right-0 top-0 h-full w-1/2 overflow-y-auto bg-background px-8 2xl:px-12">
           <img src={floralTop} alt="" className="pointer-events-none absolute -top-6 right-0 lg:w-[20rem] opacity-80" />
-          <img src={floralBottom} alt="" className="pointer-events-none absolute -bottom-4 -left-4 lg:w-72 opacity-90" />
 
-          <div className="relative z-10 mx-auto flex max-w-3xl flex-col px-6 pb-8 pt-20 2xl:max-w-4xl 2xl:px-8 2xl:pt-24">
+          <div className={`relative z-10 mx-auto flex max-w-3xl flex-col px-6 pt-14 xl:max-w-[44rem] 2xl:max-w-[48rem] 2xl:px-8 2xl:pt-16 ${activeSection === "home" ? "pb-20 2xl:pb-24" : "pb-44 2xl:pb-48"}`}>
             <InvitationNav lang={lang} activeSection={activeSection} setActiveSection={setActiveSection} />
 
             {activeSection === "home" && (
-            <div className="flex flex-col items-center pt-16 text-center 2xl:pt-20">
-            <img src={weddingRings} alt="Wedding rings" className="mb-6 h-auto w-16 2xl:mb-8 2xl:w-20" />
-            <p className="font-serif text-base tracking-[0.2em] text-muted-foreground 2xl:text-lg" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+            <div className="flex min-h-[calc(100vh-10.5rem)] flex-col items-center justify-center pt-2 text-center 2xl:min-h-[calc(100vh-11rem)]">
+            <p className="max-w-3xl font-serif text-[0.95rem] tracking-[0.16em] text-muted-foreground lg:text-[1rem] xl:max-w-[34rem] xl:text-[1.08rem] 2xl:text-[1.14rem]" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
               {invitedText[lang]}
             </p>
 
-            <div className="w-56 md:w-72 2xl:w-80">
+            <div className="w-40 md:w-48 xl:w-[13.5rem] 2xl:w-[15rem]">
               <LogoMark className="aspect-square w-full" />
             </div>
 
-            <p className="mt-4 font-serif text-lg tracking-widest text-foreground 2xl:mt-6 2xl:text-2xl">
+            <p className="mt-1 font-serif text-[1.15rem] tracking-[0.1em] text-foreground lg:text-[1.28rem] xl:text-[1.38rem] 2xl:mt-2 2xl:text-[1.5rem]">
               {t.date}
             </p>
 
-            <p className="mt-3 font-serif text-lg tracking-widest text-foreground 2xl:text-2xl">
+            <p className="mt-1 max-w-3xl font-serif text-[1.15rem] tracking-[0.1em] text-foreground lg:text-[1.28rem] xl:max-w-[34rem] xl:text-[1.38rem] 2xl:text-[1.5rem]">
               {t.deadlineDate}
             </p>
 
-            <div className="mt-6 flex gap-4 font-serif text-base tracking-wider text-muted-foreground 2xl:mt-8 2xl:gap-6 2xl:text-xl">
+            <div className="mt-3 flex gap-3 font-serif text-[0.95rem] tracking-[0.08em] text-muted-foreground lg:text-[1rem] xl:text-[1.06rem] 2xl:mt-4 2xl:gap-4 2xl:text-[1.12rem]">
               <span>{timeLeft.days} {t.days}</span>
               <span>{timeLeft.hours} {t.hrs}</span>
               <span>{timeLeft.minutes} {t.min}</span>
               <span>{timeLeft.seconds} {t.sec}</span>
             </div>
 
-            <div className="mt-10 flex gap-4 2xl:mt-12">
+            <div className="mt-5 flex gap-4 2xl:mt-6">
               <a
                 href="https://luma.com/9x6q8qjr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block border-2 border-black px-12 py-3 font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background 2xl:px-14 2xl:py-4 2xl:text-base"
+                className="inline-block border-2 border-black px-9 py-2.5 font-serif text-[0.82rem] font-semibold tracking-[0.22em] text-black transition-colors hover:bg-black hover:text-background 2xl:px-10 2xl:py-3"
               >
                 {t.rsvp}
               </a>
@@ -574,6 +568,14 @@ const Index = () => {
                 <WeddingDetails lang={lang} activeSection={activeSection} />
               </div>
             )}
+
+            <div className="pointer-events-none absolute -left-10 right-0 bottom-0 flex justify-start 2xl:-left-12">
+              <img
+                src={floralBottom}
+                alt=""
+                className={`${activeSection === "home" ? "w-64 2xl:w-72" : "w-72 2xl:w-80"} opacity-90`}
+              />
+            </div>
           </div>
         </div>
 
@@ -586,11 +588,11 @@ const Index = () => {
             transition: isCardOpen ? "opacity 0.01s ease 1.6s" : "opacity 0.01s ease 0s",
           }}
         >
-          <div className="max-w-md px-8 text-center" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+          <div className="max-w-md px-8 text-center xl:max-w-md 2xl:max-w-lg" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
             {lang === 'ar' && (
-              <p className="font-serif text-2xl italic leading-relaxed text-white/80 mb-6">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+              <p className="mb-5 font-serif text-[1.3rem] italic leading-relaxed text-white/80 xl:text-[1.4rem] 2xl:text-[1.55rem]">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
             )}
-            <p className="font-serif text-3xl italic leading-relaxed text-white/80 whitespace-pre-line">
+            <p className="whitespace-pre-line font-serif text-[1.5rem] italic leading-relaxed text-white/80 xl:text-[1.72rem] 2xl:text-[1.9rem]">
               {quoteText[lang]}
             </p>
           </div>
@@ -622,21 +624,21 @@ const Index = () => {
                 />
               </div>
             )}
-            <div className="flex flex-col items-center gap-8 scale-95">
-              <img src={weddingRings} alt="Wedding rings" className="w-20 h-auto" />
-               <div className="mb-8"></div>
-               <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-5xl text-foreground flex gap-4`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+            <div className="flex flex-col items-center gap-4 scale-95 2xl:gap-5">
+              <img src={weddingRings} alt="Wedding rings" className="h-auto w-12 2xl:w-14" />
+               <div className="mb-1"></div>
+               <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} flex gap-3 text-[2.85rem] text-foreground xl:text-[3.05rem] 2xl:text-[3.3rem]`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
               </h2>
-               <p className="max-w-sm font-serif text-xl text-muted-foreground text-center leading-relaxed pt-4" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+               <p className="max-w-sm pt-1 text-center font-serif text-[0.94rem] leading-[1.45] text-muted-foreground xl:max-w-md xl:text-[1rem] 2xl:max-w-md 2xl:text-[1.08rem]" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverText1[lang]}
                </p>
-               <p className="max-w-sm font-serif text-xl text-muted-foreground text-center leading-relaxed pb-4" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+               <p className="max-w-sm pb-1 text-center font-serif text-[0.94rem] leading-[1.45] text-muted-foreground xl:max-w-md xl:text-[1rem] 2xl:max-w-md 2xl:text-[1.08rem]" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                 {coverText2[lang]}
                </p>
               <button
                 onClick={() => setIsCardOpen(true)}
-                className="border-2 border-black px-10 py-5 font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background"
+                className="border-2 border-black px-9 py-3.5 font-serif text-[0.88rem] font-semibold tracking-[0.22em] text-black transition-colors hover:bg-black hover:text-background 2xl:px-10"
               >
                 {t.openCard}
               </button>
@@ -659,17 +661,6 @@ const Index = () => {
           </div>
         </div>
 
-        {isCardOpen && (
-          <div className="absolute left-[calc(50%+1.5rem)] top-6 z-30">
-            <LangDropdown
-              lang={lang}
-              setLang={setLang}
-              open={desktopCompactLangOpen}
-              setOpen={setDesktopCompactLangOpen}
-              variant="compact"
-            />
-          </div>
-        )}
       </div>
 
       {/* ===== MOBILE / TABLET: Cover + Normal Layout ===== */}
@@ -704,13 +695,19 @@ const Index = () => {
            <div className="flex flex-col items-center gap-4 md:gap-8 px-6 max-w-[320px] min-[700px]:max-w-none min-[700px]:scale-95">
              <img src={weddingRings} alt="Wedding rings" className="w-14 min-[700px]:w-20 h-auto" />
              <div className="mb-4 min-[700px]:mb-8"></div>
-             <h2 className={`${lang === 'ar' ? 'font-script-ar' : 'font-script'} text-4xl min-[700px]:text-5xl text-foreground flex gap-3 min-[700px]:gap-4`} dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-               {coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
+             <h2
+               className={`${lang === 'ar' ? 'font-script-ar leading-[1.3]' : 'font-script flex gap-3 min-[700px]:gap-4'} text-4xl text-foreground min-[700px]:text-5xl`}
+               dir={lang === 'ar' ? 'rtl' : 'ltr'}
+               lang={lang === 'ar' ? 'ar' : undefined}
+             >
+               {lang === "ar"
+                 ? coverHeading[lang].join(" ")
+                 : coverHeading[lang].map((w, i) => <span key={i}>{w}</span>)}
              </h2>
-             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-muted-foreground text-center leading-relaxed pt-6 min-[700px]:pt-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-muted-foreground text-center leading-[1.45] pt-6 min-[700px]:pt-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                {coverText1[lang]}
              </p>
-             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-muted-foreground text-center leading-relaxed pb-6 min-[700px]:pb-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+             <p className="max-w-xs min-[700px]:max-w-sm font-serif text-base min-[700px]:text-xl text-muted-foreground text-center leading-[1.45] pb-6 min-[700px]:pb-3" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
                {coverText2[lang]}
              </p>
              <button
@@ -764,49 +761,62 @@ const Index = () => {
         </div>
 
         {/* Details */}
-        <div className="relative flex w-full flex-col items-center justify-center min-[700px]:max-[1023px]:justify-start bg-background px-5 py-10 overflow-hidden sm:px-6 md:px-8 md:py-16">
-          <img src={floralTop} alt="" className="pointer-events-none absolute right-0 top-0 w-[8rem] opacity-70 min-[700px]:max-[1023px]:w-[12rem]" />
-          <img src={floralBottom} alt="" className="pointer-events-none absolute -bottom-4 min-[700px]:max-[1023px]:-bottom-1 -left-4 w-40 min-[700px]:max-[1023px]:w-[14.85rem] opacity-90" />
+        <div className="relative flex w-full flex-col items-center justify-start overflow-visible bg-background px-5 py-10 sm:px-6 md:overflow-hidden md:px-8 md:py-16">
+          <img
+            src={floralTop}
+            alt=""
+            className="pointer-events-none absolute right-0 top-0 z-20 w-[7.5rem] opacity-60 min-[700px]:w-[12rem] min-[700px]:opacity-65"
+          />
 
-          <div className="relative z-10 flex w-full max-w-3xl flex-col">
-            <div className="flex flex-col items-center pt-12 text-center">
-            <p className="font-serif text-sm tracking-[0.2em] text-muted-foreground md:text-base" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
-              {invitedText[lang]}
-            </p>
+          <div className="relative z-10 flex w-full max-w-3xl flex-col pb-4 md:pb-44">
+            <div className="-mx-5 bg-[#fbf7f1] px-5 py-10 sm:-mx-6 sm:px-6 md:mx-0 md:bg-transparent md:px-0 md:py-0">
+              <div className="flex flex-col items-center pt-2 text-center md:pt-12">
+              <p className="px-4 font-serif text-base tracking-[0.16em] text-muted-foreground md:px-0 md:text-lg" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+                {invitedText[lang]}
+              </p>
 
-            <div className="w-44 sm:w-52 md:w-60">
-              <LogoMark className="aspect-square w-full" />
+              <div className="w-44 sm:w-52 md:w-60">
+                <LogoMark className="aspect-square w-full" />
+              </div>
+
+              <p className="mt-4 font-serif text-xl tracking-widest text-foreground md:text-2xl">
+                {t.date}
+              </p>
+
+              <p className="mt-3 font-serif text-xl tracking-widest text-foreground md:text-2xl">
+                {t.deadlineDate}
+              </p>
+
+              <div className="mt-6 flex flex-wrap justify-center gap-4 font-serif text-lg tracking-wider text-muted-foreground md:text-xl">
+                <span>{timeLeft.days} {t.days}</span>
+                <span>{timeLeft.hours} {t.hrs}</span>
+                <span>{timeLeft.minutes} {t.min}</span>
+                <span>{timeLeft.seconds} {t.sec}</span>
+              </div>
+
+              <div className="mt-10 flex flex-col gap-4 md:flex-row">
+                <a
+                  href="https://luma.com/9x6q8qjr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block max-w-full border-2 border-black px-8 py-3 text-center font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background sm:px-12"
+                >
+                  {t.rsvp}
+                </a>
+              </div>
+              </div>
             </div>
 
-            <p className="mt-4 font-serif text-lg tracking-widest text-foreground">
-              {t.date}
-            </p>
-
-            <p className="mt-3 font-serif text-lg tracking-widest text-foreground">
-              {t.deadlineDate}
-            </p>
-
-            <div className="mt-6 flex flex-wrap justify-center gap-4 font-serif text-base tracking-wider text-muted-foreground">
-              <span>{timeLeft.days} {t.days}</span>
-              <span>{timeLeft.hours} {t.hrs}</span>
-              <span>{timeLeft.minutes} {t.min}</span>
-              <span>{timeLeft.seconds} {t.sec}</span>
-            </div>
-
-            <div className="mt-10 flex flex-col md:flex-row gap-4">
-              <a
-                href="https://luma.com/9x6q8qjr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block max-w-full border-2 border-black px-8 py-3 text-center font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background sm:px-12"
-              >
-                {t.rsvp}
-              </a>
-            </div>
-            </div>
-
-            <div className={`mt-8 w-full border-t border-border/60 pt-8 ${lang === "ar" ? "text-right" : "text-left"}`}>
+            <div className={`mt-8 w-full border-t border-border/60 pt-0 ${lang === "ar" ? "text-right" : "text-left"} md:mt-8 md:pt-8`}>
               <WeddingDetails lang={lang} showAll />
+            </div>
+
+            <div className="pointer-events-none mt-0 -mb-12 -ml-8 flex justify-start md:hidden">
+              <img src={floralBottom} alt="" className="block w-40 opacity-90" />
+            </div>
+
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 hidden justify-start md:flex">
+              <img src={floralBottom} alt="" className="opacity-90 min-[700px]:max-[1023px]:w-[14.85rem]" />
             </div>
           </div>
         </div>

@@ -486,15 +486,29 @@ const WeddingDetails: FC<WeddingDetailsProps> = ({ lang, activeSection, showAll 
 
   return (
     <div
-      className={`mx-auto flex min-h-full max-w-3xl flex-col font-serif text-foreground 2xl:max-w-4xl ${isArabic ? "text-right" : ""}`}
+      className={`mx-auto flex min-h-full max-w-3xl flex-col font-serif text-foreground xl:max-w-[46rem] 2xl:max-w-[50rem] ${isArabic ? "text-right" : ""}`}
       dir={isArabic ? "rtl" : "ltr"}
       lang={isArabic ? "ar" : undefined}
     >
       {showAll ? (
-        <div className="space-y-10 pb-6 pt-2">
-          {c.sections.map((section) => (
-            <section key={section.id} id={section.id} className="scroll-mt-24 pb-2">
-              <h3 className={isArabic ? "text-4xl font-medium leading-relaxed text-foreground md:text-5xl 2xl:text-6xl" : "text-4xl font-medium tracking-[0.04em] text-foreground md:text-5xl 2xl:text-6xl"}>
+        <div className="space-y-0 pb-0 pt-0 md:space-y-10 md:pb-36">
+          {c.sections.map((section, index) => (
+            <section
+              key={section.id}
+              id={section.id}
+              className={`scroll-mt-24 -mx-5 px-5 py-8 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:py-0 md:pb-10 ${
+                section.id === "story"
+                  ? "bg-[#b97867] [&_p]:!text-[#f7ece7] [&_a]:!text-[#f7ece7] [&_span]:!text-[#f7ece7]"
+                  : index % 4 === 0
+                  ? "bg-[#f6eee7]"
+                  : index % 4 === 1
+                    ? "bg-[#efe1d5]"
+                    : index % 4 === 2
+                      ? "bg-[#f3ede8]"
+                      : "bg-[#faf6f1]"
+              } md:bg-transparent`}
+            >
+              <h3 className={isArabic ? `text-[2.8rem] font-medium leading-relaxed xl:text-[3.25rem] 2xl:text-[3.65rem] ${section.id === "story" ? "text-[#f7ece7]" : "text-foreground"}` : `text-[2.8rem] font-medium tracking-[0.04em] xl:text-[3.25rem] 2xl:text-[3.65rem] ${section.id === "story" ? "text-[#f7ece7]" : "text-foreground"}`}>
                 {section.title}
               </h3>
               {renderSectionContent(section, isArabic, dressCodeLabel)}
@@ -506,8 +520,8 @@ const WeddingDetails: FC<WeddingDetailsProps> = ({ lang, activeSection, showAll 
           const active = activeSection ? c.sections.find((section) => section.id === activeSection) : null;
           if (!active) return null;
           return (
-            <section className="pb-6 pt-2">
-              <h3 className={isArabic ? "text-4xl font-medium leading-relaxed text-foreground md:text-5xl 2xl:text-6xl" : "text-4xl font-medium tracking-[0.04em] text-foreground md:text-5xl 2xl:text-6xl"}>
+            <section className="pb-0 pt-2 md:pb-36">
+              <h3 className={isArabic ? "text-[2.8rem] font-medium leading-relaxed text-foreground xl:text-[3.25rem] 2xl:text-[3.65rem]" : "text-[2.8rem] font-medium tracking-[0.04em] text-foreground xl:text-[3.25rem] 2xl:text-[3.65rem]"}>
                 {active.title}
               </h3>
               {renderSectionContent(active, isArabic, dressCodeLabel)}
@@ -552,7 +566,7 @@ const renderSectionContent = (
     return (
       <div className="mt-5">
         {section.intro ? (
-          <p className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">{section.intro}</p>
+          <p className="max-w-2xl text-base leading-7 text-muted-foreground xl:max-w-3xl xl:text-[1.15rem] xl:leading-[1.6] 2xl:text-[1.25rem]">{section.intro}</p>
         ) : null}
 
         <div className="mt-8 space-y-10">
@@ -561,9 +575,14 @@ const renderSectionContent = (
               key={`${item.date}-${item.title}`}
               className="grid gap-5 md:grid-cols-[9rem_2.5rem_minmax(0,1fr)]"
             >
-              <div className={`md:pt-1 ${isArabic ? "md:text-right" : ""}`}>
-                <p className="text-2xl italic text-[#c78e7e] md:text-3xl 2xl:text-4xl">{item.date}</p>
-                <p className="mt-1 text-sm tracking-[0.2em] text-muted-foreground">{item.time}</p>
+              <div className={`w-full md:pt-1 ${isArabic ? "justify-self-end text-right md:text-right" : ""}`}>
+                <div
+                  className={`flex items-baseline gap-3 md:block ${isArabic ? "w-fit justify-end md:text-right" : "flex-row"}`}
+                  dir={isArabic ? "rtl" : "ltr"}
+                >
+                  <p className="text-2xl italic text-[#c78e7e] md:text-3xl 2xl:text-4xl">{item.date}</p>
+                  <p className="text-base tracking-[0.18em] text-muted-foreground md:mt-1 md:text-lg 2xl:text-xl">{item.time}</p>
+                </div>
               </div>
 
               <div className="hidden items-stretch justify-center md:flex">
@@ -575,12 +594,12 @@ const renderSectionContent = (
                 </div>
               </div>
 
-              <div className="md:pb-2">
-                <div className={`flex items-center gap-4 md:hidden ${isArabic ? "flex-row-reverse text-right" : ""}`}>
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fff7ec] text-[#d89c78] shadow-[0_8px_24px_rgba(216,156,120,0.14)]">
+              <div className={`md:pb-2 ${isArabic ? "text-right" : ""}`}>
+                <div className={`flex items-center gap-4 md:hidden ${isArabic ? "justify-end text-right" : ""}`}>
+                  <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fff7ec] text-[#d89c78] shadow-[0_8px_24px_rgba(216,156,120,0.14)] ${isArabic ? "order-2" : ""}`}>
                     <ItineraryIcon kind={item.icon} />
                   </div>
-                  <div>
+                  <div className={isArabic ? "order-1 flex-1 text-right" : ""}>
                     <p className={isArabic ? "text-lg font-semibold text-foreground/85 2xl:text-xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                       {item.title}
                     </p>
@@ -601,8 +620,8 @@ const renderSectionContent = (
                   />
                 </div>
 
-                <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">{item.description}</p>
-                <p className="mt-4 max-w-2xl text-base leading-8 text-foreground/85 md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">
+                <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground xl:max-w-3xl xl:text-[1.12rem] xl:leading-[1.6] 2xl:text-[1.22rem]">{item.description}</p>
+                <p className="mt-4 max-w-2xl text-base leading-7 text-foreground/85 xl:max-w-3xl xl:text-[1.12rem] xl:leading-[1.6] 2xl:text-[1.22rem]">
                   <span className="font-medium">{dressCodeLabel}:</span> {item.dressCode}
                 </p>
               </div>
@@ -610,7 +629,7 @@ const renderSectionContent = (
           ))}
         </div>
 
-        {section.note ? <p className={`mt-10 max-w-xl whitespace-pre-line pb-24 text-base leading-8 text-muted-foreground md:max-w-2xl md:pb-32 md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9 ${isArabic ? "mr-auto text-right" : "mr-6 ml-auto text-right md:mr-8"}`}>{section.note}</p> : null}
+        {section.note ? <p className={`mt-10 max-w-xl pb-24 text-base leading-7 text-muted-foreground xl:max-w-3xl xl:text-[1.12rem] xl:leading-[1.6] md:pb-32 2xl:text-[1.22rem] ${isArabic ? "mr-auto text-right" : "mr-6 ml-auto text-right md:mr-8"}`}>{section.note}</p> : null}
       </div>
     );
   }
@@ -621,20 +640,20 @@ const renderSectionContent = (
         {section.travelBlocks.map((block) => (
           <div
             key={block.title}
-            className="grid gap-5 md:grid-cols-[4rem_minmax(0,1fr)]"
+            className={isArabic ? "flex items-start justify-end gap-5 md:grid md:grid-cols-[4rem_minmax(0,1fr)]" : "grid gap-5 md:grid-cols-[4rem_minmax(0,1fr)]"}
           >
-            <div className="flex items-start md:justify-center">
+            <div className={`flex items-start md:justify-center ${isArabic ? "order-2 md:order-2" : ""}`}>
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fff7ec] text-[#d89c78] shadow-[0_8px_24px_rgba(216,156,120,0.14)]">
                 <TravelIcon kind={block.icon} />
               </div>
             </div>
-            <div className={isArabic ? "text-right" : ""}>
+            <div className={`min-w-0 flex-1 ${isArabic ? "order-1 text-right md:order-1" : ""}`}>
               <p className={isArabic ? "text-lg font-semibold text-foreground/85 md:text-xl 2xl:text-2xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                 {block.title}
               </p>
               <div className="mt-4 space-y-4">
                 {block.lines.map((line) => (
-                  <p key={line} className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">
+                  <p key={line} className="max-w-2xl text-base leading-7 text-muted-foreground xl:max-w-3xl xl:text-[1.12rem] xl:leading-[1.6] 2xl:text-[1.22rem]">
                     {line}
                   </p>
                 ))}
@@ -662,15 +681,15 @@ const renderSectionContent = (
                     : "md:ml-12 md:max-w-[23rem]"
             }`}
           >
-            <div className={`flex items-start gap-4 ${isArabic ? "flex-row-reverse text-right" : ""}`}>
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fff7ec]/90 text-2xl shadow-[0_8px_24px_rgba(216,156,120,0.10)]">
+            <div className={`flex items-start gap-4 ${isArabic ? "justify-end text-right" : ""}`}>
+              <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#fff7ec]/90 text-2xl shadow-[0_8px_24px_rgba(216,156,120,0.10)] ${isArabic ? "order-2" : ""}`}>
                 <span aria-hidden="true">{block.emoji}</span>
               </div>
-              <div className="min-w-0">
+              <div className={`min-w-0 flex-1 ${isArabic ? "order-1 text-right" : ""}`}>
                 <p className="text-[1.45rem] italic leading-none text-[#c78e7e] md:text-[1.65rem]">{block.title}</p>
-                <div className="mt-3 space-y-3 pl-1">
+                <div className={`mt-3 space-y-3 ${isArabic ? "" : "pl-1"}`}>
                   {block.lines.map((line) => (
-                    <p key={line} className="text-[0.98rem] leading-7 text-muted-foreground md:text-base 2xl:text-lg 2xl:leading-8">
+                    <p key={line} className="text-base leading-[1.55] text-muted-foreground xl:text-[1.08rem] 2xl:text-[1.16rem] 2xl:leading-[1.6]">
                       {line}
                     </p>
                   ))}
@@ -686,7 +705,7 @@ const renderSectionContent = (
   return (
     <div className="mt-5 space-y-5">
       {section.body?.map((paragraph) => (
-        <p key={paragraph} className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">
+        <p key={paragraph} className="max-w-2xl text-base leading-7 text-muted-foreground xl:max-w-3xl xl:text-[1.12rem] xl:leading-[1.6] 2xl:text-[1.22rem]">
           {paragraph}
         </p>
       ))}
