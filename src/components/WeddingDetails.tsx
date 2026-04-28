@@ -467,7 +467,7 @@ const WeddingDetails: FC<WeddingDetailsProps> = ({ lang, activeSection, showAll 
 
   return (
     <div
-      className={`mx-auto flex min-h-full max-w-3xl flex-col font-serif text-foreground ${isArabic ? "text-right" : ""}`}
+      className={`mx-auto flex min-h-full max-w-3xl flex-col font-serif text-foreground 2xl:max-w-4xl ${isArabic ? "text-right" : ""}`}
       dir={isArabic ? "rtl" : "ltr"}
       lang={isArabic ? "ar" : undefined}
     >
@@ -475,7 +475,7 @@ const WeddingDetails: FC<WeddingDetailsProps> = ({ lang, activeSection, showAll 
         <div className="space-y-10 pb-6 pt-2">
           {c.sections.map((section) => (
             <section key={section.id} id={section.id} className="scroll-mt-24 pb-2">
-              <h3 className={isArabic ? "text-4xl font-medium leading-relaxed text-foreground md:text-5xl" : "text-4xl font-medium tracking-[0.04em] text-foreground md:text-5xl"}>
+              <h3 className={isArabic ? "text-4xl font-medium leading-relaxed text-foreground md:text-5xl 2xl:text-6xl" : "text-4xl font-medium tracking-[0.04em] text-foreground md:text-5xl 2xl:text-6xl"}>
                 {section.title}
               </h3>
               {renderSectionContent(section, isArabic, dressCodeLabel)}
@@ -488,7 +488,7 @@ const WeddingDetails: FC<WeddingDetailsProps> = ({ lang, activeSection, showAll 
           if (!active) return null;
           return (
             <section className="pb-6 pt-2">
-              <h3 className={isArabic ? "text-4xl font-medium leading-relaxed text-foreground md:text-5xl" : "text-4xl font-medium tracking-[0.04em] text-foreground md:text-5xl"}>
+              <h3 className={isArabic ? "text-4xl font-medium leading-relaxed text-foreground md:text-5xl 2xl:text-6xl" : "text-4xl font-medium tracking-[0.04em] text-foreground md:text-5xl 2xl:text-6xl"}>
                 {active.title}
               </h3>
               {renderSectionContent(active, isArabic, dressCodeLabel)}
@@ -516,7 +516,7 @@ const renderSectionContent = (
     return (
       <div className="mt-5">
         {section.intro ? (
-          <p className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">{section.intro}</p>
+          <p className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">{section.intro}</p>
         ) : null}
 
         <div className="mt-8 space-y-10">
@@ -526,7 +526,7 @@ const renderSectionContent = (
               className="grid gap-5 md:grid-cols-[9rem_2.5rem_minmax(0,1fr)]"
             >
               <div className={`md:pt-1 ${isArabic ? "md:text-right" : ""}`}>
-                <p className="text-2xl italic text-[#c78e7e] md:text-3xl">{item.date}</p>
+                <p className="text-2xl italic text-[#c78e7e] md:text-3xl 2xl:text-4xl">{item.date}</p>
                 <p className="mt-1 text-sm tracking-[0.2em] text-muted-foreground">{item.time}</p>
               </div>
 
@@ -545,7 +545,7 @@ const renderSectionContent = (
                     <ItineraryIcon kind={item.icon} />
                   </div>
                   <div>
-                    <p className={isArabic ? "text-lg font-semibold text-foreground/85" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg"}>
+                    <p className={isArabic ? "text-lg font-semibold text-foreground/85 2xl:text-xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                       {item.title}
                     </p>
                     <p className={isArabic ? "mt-1 text-sm text-muted-foreground" : "mt-1 text-sm tracking-[0.12em] text-muted-foreground"}>{item.location}</p>
@@ -553,14 +553,14 @@ const renderSectionContent = (
                 </div>
 
                 <div className={`hidden md:block ${isArabic ? "text-right" : ""}`}>
-                  <p className={isArabic ? "text-lg font-semibold text-foreground/85 md:text-xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg"}>
+                  <p className={isArabic ? "text-lg font-semibold text-foreground/85 md:text-xl 2xl:text-2xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                     {item.title}
                   </p>
-                  <p className={isArabic ? "mt-2 text-base font-medium text-foreground" : "mt-2 text-base font-medium tracking-[0.08em] text-foreground"}>{item.location}</p>
+                  <p className={isArabic ? "mt-2 text-base font-medium text-foreground 2xl:text-lg" : "mt-2 text-base font-medium tracking-[0.08em] text-foreground 2xl:text-lg"}>{item.location}</p>
                 </div>
 
-                <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">{item.description}</p>
-                <p className="mt-4 max-w-2xl text-base leading-8 text-foreground/85 md:text-lg">
+                <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">{item.description}</p>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-foreground/85 md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">
                   <span className="font-medium">{dressCodeLabel}:</span> {item.dressCode}
                 </p>
               </div>
@@ -568,7 +568,7 @@ const renderSectionContent = (
           ))}
         </div>
 
-        {section.note ? <p className={`mt-10 max-w-xl whitespace-pre-line pb-24 text-base leading-8 text-muted-foreground md:max-w-2xl md:pb-32 md:text-lg ${isArabic ? "mr-auto text-right" : "mr-6 ml-auto text-right md:mr-8"}`}>{section.note}</p> : null}
+        {section.note ? <p className={`mt-10 max-w-xl whitespace-pre-line pb-24 text-base leading-8 text-muted-foreground md:max-w-2xl md:pb-32 md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9 ${isArabic ? "mr-auto text-right" : "mr-6 ml-auto text-right md:mr-8"}`}>{section.note}</p> : null}
       </div>
     );
   }
@@ -587,12 +587,12 @@ const renderSectionContent = (
               </div>
             </div>
             <div className={isArabic ? "text-right" : ""}>
-              <p className={isArabic ? "text-lg font-semibold text-foreground/85 md:text-xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg"}>
+              <p className={isArabic ? "text-lg font-semibold text-foreground/85 md:text-xl 2xl:text-2xl" : "text-base font-semibold uppercase tracking-[0.26em] text-foreground/85 md:text-lg 2xl:text-xl"}>
                 {block.title}
               </p>
               <div className="mt-4 space-y-4">
                 {block.lines.map((line) => (
-                  <p key={line} className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+                  <p key={line} className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">
                     {line}
                   </p>
                 ))}
@@ -628,7 +628,7 @@ const renderSectionContent = (
                 <p className="text-[1.45rem] italic leading-none text-[#c78e7e] md:text-[1.65rem]">{block.title}</p>
                 <div className="mt-3 space-y-3 pl-1">
                   {block.lines.map((line) => (
-                    <p key={line} className="text-[0.98rem] leading-7 text-muted-foreground md:text-base">
+                    <p key={line} className="text-[0.98rem] leading-7 text-muted-foreground md:text-base 2xl:text-lg 2xl:leading-8">
                       {line}
                     </p>
                   ))}
@@ -644,7 +644,7 @@ const renderSectionContent = (
   return (
     <div className="mt-5 space-y-5">
       {section.body?.map((paragraph) => (
-        <p key={paragraph} className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+        <p key={paragraph} className="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg 2xl:max-w-3xl 2xl:text-xl 2xl:leading-9">
           {paragraph}
         </p>
       ))}

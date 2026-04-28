@@ -447,6 +447,11 @@ const Index = () => {
   }, [isCardOpen]);
 
   useEffect(() => {
+    setDesktopCoverLangOpen(false);
+    setDesktopCompactLangOpen(false);
+  }, [isCardOpen]);
+
+  useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as Element | null;
       if (!target?.closest("[data-lang-menu='true']")) {
@@ -488,45 +493,45 @@ const Index = () => {
         </div>
 
         {/* Right Side - Details content (always visible underneath grey backing) */}
-        <div className="absolute right-0 top-0 w-1/2 h-full overflow-y-auto bg-background px-8">
+        <div className="absolute right-0 top-0 w-1/2 h-full overflow-y-auto bg-background px-8 2xl:px-12">
           <img src={floralTop} alt="" className="pointer-events-none absolute -top-6 right-0 lg:w-[20rem] opacity-80" />
           <img src={floralBottom} alt="" className="pointer-events-none absolute -bottom-4 -left-4 lg:w-72 opacity-90" />
 
-          <div className="relative z-10 mx-auto flex max-w-3xl flex-col px-6 pb-8 pt-20">
+          <div className="relative z-10 mx-auto flex max-w-3xl flex-col px-6 pb-8 pt-20 2xl:max-w-4xl 2xl:px-8 2xl:pt-24">
             <InvitationNav lang={lang} activeSection={activeSection} setActiveSection={setActiveSection} />
 
             {activeSection === "home" && (
-            <div className="flex flex-col items-center pt-16 text-center">
-            <img src={weddingRings} alt="Wedding rings" className="mb-6 w-16 h-auto" />
-            <p className="font-serif text-base tracking-[0.2em] text-muted-foreground" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
+            <div className="flex flex-col items-center pt-16 text-center 2xl:pt-20">
+            <img src={weddingRings} alt="Wedding rings" className="mb-6 h-auto w-16 2xl:mb-8 2xl:w-20" />
+            <p className="font-serif text-base tracking-[0.2em] text-muted-foreground 2xl:text-lg" dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang === 'ar' ? 'ar' : undefined}>
               {invitedText[lang]}
             </p>
 
-            <div className="w-56 md:w-72">
+            <div className="w-56 md:w-72 2xl:w-80">
               <LogoMark className="aspect-square w-full" />
             </div>
 
-            <p className="mt-4 font-serif text-lg tracking-widest text-foreground">
+            <p className="mt-4 font-serif text-lg tracking-widest text-foreground 2xl:mt-6 2xl:text-2xl">
               {t.date}
             </p>
 
-            <p className="mt-3 font-serif text-lg tracking-widest text-foreground">
+            <p className="mt-3 font-serif text-lg tracking-widest text-foreground 2xl:text-2xl">
               {t.deadlineDate}
             </p>
 
-            <div className="mt-6 flex gap-4 font-serif text-base tracking-wider text-muted-foreground">
+            <div className="mt-6 flex gap-4 font-serif text-base tracking-wider text-muted-foreground 2xl:mt-8 2xl:gap-6 2xl:text-xl">
               <span>{timeLeft.days} {t.days}</span>
               <span>{timeLeft.hours} {t.hrs}</span>
               <span>{timeLeft.minutes} {t.min}</span>
               <span>{timeLeft.seconds} {t.sec}</span>
             </div>
 
-            <div className="mt-10 flex gap-4">
+            <div className="mt-10 flex gap-4 2xl:mt-12">
               <a
                 href="https://luma.com/9x6q8qjr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block border-2 border-black px-12 py-3 font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background"
+                className="inline-block border-2 border-black px-12 py-3 font-serif text-sm font-semibold tracking-[0.3em] text-black transition-colors hover:bg-black hover:text-background 2xl:px-14 2xl:py-4 2xl:text-base"
               >
                 {t.rsvp}
               </a>
@@ -576,15 +581,17 @@ const Index = () => {
             className="absolute inset-0 flex flex-col items-center justify-center"
             style={{ backgroundColor: "#F7F5F2", backfaceVisibility: "hidden" }}
           >
-            <div className="absolute right-8 top-8 z-10">
-              <LangDropdown
-                lang={lang}
-                setLang={setLang}
-                open={desktopCoverLangOpen}
-                setOpen={setDesktopCoverLangOpen}
-                variant="cover"
-              />
-            </div>
+            {!isCardOpen && (
+              <div className="absolute right-8 top-8 z-10">
+                <LangDropdown
+                  lang={lang}
+                  setLang={setLang}
+                  open={desktopCoverLangOpen}
+                  setOpen={setDesktopCoverLangOpen}
+                  variant="cover"
+                />
+              </div>
+            )}
             <div className="flex flex-col items-center gap-8 scale-95">
               <img src={weddingRings} alt="Wedding rings" className="w-20 h-auto" />
                <div className="mb-8"></div>
@@ -619,19 +626,20 @@ const Index = () => {
               imageClassName="absolute inset-0 h-full w-full object-cover scale-[1.03] object-center origin-bottom"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-            {/* Language selector on back face of card */}
-            <div className="absolute left-6 top-6 z-20">
-              <LangDropdown
-                lang={lang}
-                setLang={setLang}
-                open={desktopCompactLangOpen}
-                setOpen={setDesktopCompactLangOpen}
-                variant="compact"
-              />
-            </div>
           </div>
         </div>
+
+        {isCardOpen && (
+          <div className="absolute left-[calc(50%+1.5rem)] top-6 z-30">
+            <LangDropdown
+              lang={lang}
+              setLang={setLang}
+              open={desktopCompactLangOpen}
+              setOpen={setDesktopCompactLangOpen}
+              variant="compact"
+            />
+          </div>
+        )}
       </div>
 
       {/* ===== MOBILE / TABLET: Cover + Normal Layout ===== */}
